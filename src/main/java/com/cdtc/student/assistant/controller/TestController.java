@@ -30,4 +30,10 @@ public class TestController {
         modelMap.addAttribute("banner",banners);
         return modelMap;
     }
+
+    @RequestMapping(value = "/page")
+    public Object page(ModelMap modelMap) {
+
+        return modelMap;
+    }
 }
