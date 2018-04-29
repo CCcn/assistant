@@ -57,6 +57,9 @@
             <if test="finished != null" >
                 finished,
             </if>
+            <if test="hasImg != null" >
+                has_img,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides="," >
             <if test="userId != null" >
@@ -91,6 +94,9 @@
             </if>
             <if test="finished != null" >
                 #{finished,jdbcType=INTEGER},
+            </if>
+            <if test="hasImg != null" >
+                #{hasImg,jdbcType=INTEGER},
             </if>
         </trim>
     </insert>
@@ -130,6 +136,9 @@
             <if test="finished != null" >
                 finished,
             </if>
+            <if test="hasImg != null" >
+                has_img,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides="," >
             <if test="userId != null" >
@@ -164,6 +173,9 @@
             </if>
             <if test="finished != null" >
                 #{finished,jdbcType=INTEGER},
+            </if>
+            <if test="hasImg != null" >
+                #{hasImg,jdbcType=INTEGER},
             </if>
         </trim>
         where id = #{id}

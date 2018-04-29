@@ -67,6 +67,12 @@ public class BuyEO {
      */
     private Integer finished;
 
+    /**
+     * 0:无图片
+     * 1:有图片
+     */
+    private Integer hasImg;
+
     public Integer getId() {
         return id;
     }
@@ -155,6 +161,14 @@ public class BuyEO {
         this.finished = finished;
     }
 
+    public Integer getHasImg() {
+        return hasImg;
+    }
+
+    public void setHasImg(Integer hasImg) {
+        this.hasImg = hasImg;
+    }
+
     @Override
     public String toString() {
         return "BuyEO{" +
@@ -169,6 +183,7 @@ public class BuyEO {
                 ", ownerId='" + ownerId + '\'' +
                 ", status=" + status +
                 ", finished=" + finished +
+                ", hasImg=" + hasImg +
                 '}';
     }
 }

@@ -66,6 +66,13 @@ public class FindEO {
      */
     private Integer status;
 
+    /**
+     * 0:无图片
+     * 1:有图片
+     */
+    private Integer hasImg;
+
+
     public Integer getId() {
         return id;
     }
@@ -154,6 +161,14 @@ public class FindEO {
         this.status = status;
     }
 
+    public Integer getHasImg() {
+        return hasImg;
+    }
+
+    public void setHasImg(Integer hasImg) {
+        this.hasImg = hasImg;
+    }
+
     @Override
     public String toString() {
         return "FindEO{" +
@@ -168,6 +183,7 @@ public class FindEO {
                 ", description='" + description + '\'' +
                 ", finished=" + finished +
                 ", status=" + status +
+                ", hasImg=" + hasImg +
                 '}';
     }
 }
