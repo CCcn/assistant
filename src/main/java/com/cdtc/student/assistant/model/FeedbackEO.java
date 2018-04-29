@@ -1,6 +1,7 @@
 package com.cdtc.student.assistant.model;
 
 
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 /**
@@ -23,11 +24,13 @@ public class FeedbackEO {
     /**
      * 反馈内容
      */
+    @NotNull
     private String content;
 
     /**
      * 联系方式
      */
+
     private String contact;
 
     /**

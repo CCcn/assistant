@@ -28,13 +28,14 @@ public class FeedbackController {
      * 已处理
      */
     private final int HANDLED = 0;
+
     /**
      * 未处理
      */
     private final int UN_HANDLE= 1;
 
     @RequestMapping(value = "/add",method = RequestMethod.POST)
-    public Object feedback(FeedbackEO feedbackEO ) {
+    public Object feedback(@RequestBody FeedbackEO feedbackEO ) {
         ModelMap modelMap = new ModelMap();
 
         if(feedbackEO == null) {
@@ -42,13 +43,11 @@ public class FeedbackController {
             modelMap.addAttribute("message", ResponseMessageConstant.PARAMETER_LOST_ERROR);
             return modelMap;
         }
-
         feedbackEO.setStatus(UN_HANDLE);
         feedbackEO.setCreateDate(new Date());
 
         modelMap.addAttribute("code",ResponseCodeConstant.OK);
         modelMap.addAttribute("message", ResponseMessageConstant.OK);
-        modelMap.addAttribute("result",feedbackEO);
         return modelMap;
     }
 }
