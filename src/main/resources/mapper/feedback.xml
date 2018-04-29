@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cdtc.student.assistant.dao.FeedbackDao" >
+    <sql id="BASE_TABLE">
+      feedback
+    </sql>
+    <resultMap id="FeedbackEO" type="com.cdtc.student.assistant.model.FeedbackEO">
+        <result property="id" column="id"/>
+        <result property="contact" column="contact"/>
+        <result property="content" column="content"/>
+        <result property="createDate" column="create_date" jdbcType="TIMESTAMP"/>
+        <result property="userId" column="user_id"/>
+        <result property="status" column="status"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="com.cdtc.student.assistant.model.FeedbackEO">
+        insert into
+        <include refid="BASE_TABLE"/>
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="contact != null" >
+                contact,
+            </if>
+            <if test="content != null" >
+                content,
+            </if>
+            <if test="createDate != null" >
+                create_date,
+            </if>
+            <if test="userId != null" >
+                user_id,
+            </if>
+            <if test="status != null" >
+                status,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="contact != null" >
+                #{contact,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null" >
+                #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null" >
+                #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="userId != null" >
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="status != null" >
+                #{status,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+
+    <select id="findFeedbackByStatus" resultMap="FeedbackEO">
+        select
+         *
+        from
+        <include refid="BASE_TABLE" />
+        where
+        status = #{status,jdbcType=INTEGER}
+    </select>
+
+
+</mapper>

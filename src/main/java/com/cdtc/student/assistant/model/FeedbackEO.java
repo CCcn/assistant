@@ -1,5 +1,6 @@
 package com.cdtc.student.assistant.model;
 
+
 import java.util.Date;
 
 /**
@@ -7,7 +8,7 @@ import java.util.Date;
  *
  * Create by pcc on 2018/4/29.
  */
-public class feedbackEO {
+public class FeedbackEO {
 
     /**
      * 主键
@@ -41,6 +42,14 @@ public class feedbackEO {
      * 1 ：已处理
      */
     private Integer status;
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
 
     public Integer getId() {
         return id;
@@ -84,7 +93,7 @@ public class feedbackEO {
 
     @Override
     public String toString() {
-        return "feedbackEO{" +
+        return "FeedbackEO{" +
                 "id=" + id +
                 ", content='" + content + '\'' +
                 ", contact='" + contact + '\'' +

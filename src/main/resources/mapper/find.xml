@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cdtc.student.assistant.dao.FindDao" >
+    <sql id="BASE_TABLE">
+      find
+    </sql>
+
+    <sql id="BASE_COLUMN">
+
+    </sql>
+    <resultMap id="FindDTO" type="com.cdtc.student.assistant.dto.FindDTO">
+        <result property="id" column="id"/>
+        <result property="img" column="img"/>
+        <result property="title" column="title"/>
+        <result property="place" column="place"/>
+        <result property="date" column="date"/>
+        <result property="finished" column="finished" />
+    </resultMap>
+
+    <resultMap id="FindDetailDTO" type="com.cdtc.student.assistant.dto.FindDetailDTO">
+        <result property="name" column="name"/>
+        <result property="contactPerson" column="contact_person"/>
+        <result property="lostDate" column="date"/>
+        <result property="lostPlace" column="place"/>
+        <result property="description" column="description"/>
+        <result property="finished" column="finished" />
+    </resultMap>
+
+
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into
+        <include refid="BASE_TABLE"/>
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="userId != null" >
+                user_id,
+            </if>
+            <if test="img != null" >
+                img,
+            </if>
+            <if test="title != null" >
+                title,
+            </if>
+            <if test="name != null" >
+                name,
+            </if>
+            <if test="place != null" >
+                place,
+            </if>
+            <if test="description != null" >
+                description,
+            </if>
+            <if test="date != null" >
+                date,
+            </if>
+            <if test="contactPerson != null" >
+                contact_person,
+            </if>
+            <if test="status != null" >
+                status,
+            </if>
+            <if test="finished != null" >
+                finished,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="userId != null" >
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="img != null" >
+                #{img,jdbcType=VARCHAR},
+            </if>
+            <if test="title != null" >
+                #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null" >
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="place != null" >
+                #{place,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null" >
+                #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="date != null" >
+                #{date,jdbcType=VARCHAR},
+            </if>
+            <if test="contactPerson != null" >
+                #{contactPerson,jdbcType=INTEGER},
+            </if>
+            <if test="status != null" >
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="finished != null" >
+                #{finished,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="com.cdtc.student.assistant.model.FindEO">
+        update
+        <include refid="BASE_TABLE"/>
+        set
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="userId != null" >
+                user_id,
+            </if>
+            <if test="img != null" >
+                img,
+            </if>
+            <if test="title != null" >
+                title,
+            </if>
+            <if test="name != null" >
+                name,
+            </if>
+            <if test="place != null" >
+                place,
+            </if>
+            <if test="description != null" >
+                description,
+            </if>
+            <if test="date != null" >
+                date,
+            </if>
+            <if test="contactPerson != null" >
+                contact_person,
+            </if>
+            <if test="status != null" >
+                status,
+            </if>
+            <if test="finished != null" >
+                finished,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="userId != null" >
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="img != null" >
+                #{img,jdbcType=VARCHAR},
+            </if>
+            <if test="title != null" >
+                #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null" >
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="place != null" >
+                #{place,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null" >
+                #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="date != null" >
+                #{date,jdbcType=VARCHAR},
+            </if>
+            <if test="contactPerson != null" >
+                #{contactPerson,jdbcType=INTEGER},
+            </if>
+            <if test="status != null" >
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="finished != null" >
+                #{finished,jdbcType=INTEGER},
+            </if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <update id="delete" parameterType="java.lang.Integer">
+        update
+        <include refid="BASE_TABLE"/>
+        set
+         status = 0
+        where  id = #{id}
+    </update>
+
+    <select id="findFindDetailById" parameterType="java.lang.Integer" resultMap="FindDetailDTO">
+        select
+          name,contact_person,dercription,date,place,finished
+        from
+        <include refid="BASE_TABLE" />
+        where
+        id = #{id,jdbcType=INTEGER} and status = 1
+    </select>
+
+    <select id="findIndexFind" resultMap="FindDTO">
+      select
+        id,img,title,place,date,finished
+      from
+      <include refid="BASE_TABLE"/>
+      where status = 1
+    </select>
+
+    <select id="findIndexBuyGoodsName" resultMap="FindDTO">
+      select
+        id,img,title,place,date,finished
+      from
+      <include refid="BASE_TABLE"/>
+      where
+        name like "%"#{goodsName,jdbcType=VARCHAR}"%" and status = 1
+    </select>
+
+    <select id="findIndexBuyUserId" parameterType="java.lang.Integer" resultMap="FindDTO">
+        select
+        id,img,title,place,date,finished
+        from
+        <include refid="BASE_TABLE"/>
+        where user_id = #{userId ,jdbcType=INTEGER} and status = 1
+    </select>
+
+    <select id="findFindByLimit" resultMap="FindDTO">
+        select
+        id,img,title,place,date,finished
+        from
+        <include refid="BASE_TABLE"/>
+        order by id desc limit #{size} ;
+    </select>
+
+
+</mapper>

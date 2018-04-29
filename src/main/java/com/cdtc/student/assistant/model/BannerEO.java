@@ -30,8 +30,8 @@ public class BannerEO {
      * 后面改用枚举
      *
      * 状态：
-     *   0 ：有效
-     *   1：无效
+     *   0 ：已删除
+     *   1：未删除
      */
     private Integer status = 0;
 

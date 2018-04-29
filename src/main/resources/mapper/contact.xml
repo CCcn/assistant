@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cdtc.student.assistant.dao.ContactDao" >
+    <sql id="BASE_TABLE">
+      contact
+    </sql>
+    <resultMap id="ContactDTO" type="com.cdtc.student.assistant.dto.ContactDTO">
+        <result property="contactType" column="contact_type"/>
+        <result property="number" column="number"/>
+    </resultMap>
+
+    <insert id="insertSingle" parameterType="com.cdtc.student.assistant.model.ContactEO">
+        insert into
+        <include refid="BASE_TABLE"/>
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="userId != null" >
+                user_id,
+            </if>
+            <if test="contactType != null" >
+                contact_type,
+            </if>
+            <if test="number != null" >
+                number,
+            </if>
+            <if test="type != null" >
+                type,
+            </if>
+            <if test="goodsId != null" >
+                goods_id,
+            </if>
+
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="userId != null" >
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="contactType != null" >
+                #{contactType,jdbcType=VARCHAR},
+            </if>
+            <if test="number != null" >
+                #{number,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null" >
+                #{type,jdbcType=INTEGER},
+            </if>
+            <if test="goodsId != null" >
+                #{goodsId,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+
+    <insert id="insertList" parameterType="java.util.List">
+        insert into
+        <include refid="BASE_TABLE"/>
+        (user_id, contact_type,number,type,goods_id)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.userId,jdbcType=INTEGER}, #{item.contactType,jdbcType=VARCHR},#{item.number,jdbcType=VARCHAR},#{item.type,jdbcType=INTEGER},#{item.goodsId,jdbcType=INTEGER})
+        </foreach>
+    </insert>
+
+
+    <select id="findContactByTypeAndGoodsId" resultMap="ContactDTO">
+        select
+        contact_type,number
+        from
+        <include refid="BASE_TABLE" />
+        where
+        type = #{type,jdbcType=INTEGER} and goods_id = ${goodsId,jdbcType=INTEGER}
+    </select>
+
+
+</mapper>

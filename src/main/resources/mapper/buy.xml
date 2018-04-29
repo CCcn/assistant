@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cdtc.student.assistant.dao.BuyDao" >
+    <sql id="BASE_TABLE">
+      buy
+    </sql>
+
+    <sql id="BASE_COLUMN">
+
+    </sql>
+    <resultMap id="BuyDTO" type="com.cdtc.student.assistant.dto.BuyDTO">
+        <result property="id" column="id"/>
+        <result property="img" column="img"/>
+        <result property="title" column="title"/>
+        <result property="price" column="price"/>
+    </resultMap>
+
+    <resultMap id="BuyDetailDTO" type="com.cdtc.student.assistant.dto.BuyDetailDTO">
+        <result property="price" column="price"/>
+        <result property="name" column="name"/>
+        <result property="description" column="description"/>
+        <result property="owner" column="owner"/>
+    </resultMap>
+
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into
+        <include refid="BASE_TABLE"/>
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="userId != null" >
+                user_id,
+            </if>
+            <if test="img != null" >
+                img,
+            </if>
+            <if test="title != null" >
+                title,
+            </if>
+            <if test="name != null" >
+                name,
+            </if>
+            <if test="price != null" >
+                price,
+            </if>
+            <if test="description != null" >
+                description,
+            </if>
+            <if test="owner != null" >
+                owner,
+            </if>
+            <if test="ownerId != null" >
+                owner_id,
+            </if>
+            <if test="status != null" >
+                status,
+            </if>
+            <if test="finished != null" >
+                finished,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="userId != null" >
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="img != null" >
+                #{img,jdbcType=VARCHAR},
+            </if>
+            <if test="title != null" >
+                #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null" >
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="price != null" >
+                #{price,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null" >
+                #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="owner != null" >
+                #{owner,jdbcType=VARCHAR},
+            </if>
+            <if test="ownerId != null" >
+                #{ownerId,jdbcType=INTEGER},
+            </if>
+            <if test="status != null" >
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="ownerId != null" >
+                #{ownerId,jdbcType=INTEGER},
+            </if>
+            <if test="finished != null" >
+                #{finished,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="com.cdtc.student.assistant.model.BuyEO">
+        update
+        <include refid="BASE_TABLE"/>
+        set
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="userId != null" >
+                user_id,
+            </if>
+            <if test="img != null" >
+                img,
+            </if>
+            <if test="title != null" >
+                title,
+            </if>
+            <if test="name != null" >
+                name,
+            </if>
+            <if test="price != null" >
+                price,
+            </if>
+            <if test="description != null" >
+                description,
+            </if>
+            <if test="owner != null" >
+                owner,
+            </if>
+            <if test="ownerId != null" >
+                owner_id,
+            </if>
+            <if test="status != null" >
+                status,
+            </if>
+            <if test="finished != null" >
+                finished,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="userId != null" >
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="img != null" >
+                #{img,jdbcType=VARCHAR},
+            </if>
+            <if test="title != null" >
+                #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null" >
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="price != null" >
+                #{price,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null" >
+                #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="owner != null" >
+                #{owner,jdbcType=VARCHAR},
+            </if>
+            <if test="ownerId != null" >
+                #{ownerId,jdbcType=INTEGER},
+            </if>
+            <if test="status != null" >
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="ownerId != null" >
+                #{ownerId,jdbcType=INTEGER},
+            </if>
+            <if test="finished != null" >
+                #{finished,jdbcType=INTEGER},
+            </if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <update id="delete" parameterType="java.lang.Integer">
+        update
+        <include refid="BASE_TABLE"/>
+        set
+         status = 0
+        where  id = #{id}
+    </update>
+
+    <select id="findBuyDetailById" parameterType="java.lang.Integer" resultMap="BuyDetailDTO">
+        select
+          name,price,dercription,owner,finished
+        from
+        <include refid="BASE_TABLE" />
+        where
+        id = #{id,jdbcType=INTEGER} and status = 1
+    </select>
+
+    <select id="findIndexBuy" resultMap="BuyDTO">
+      select
+        id,img,title,price,finished
+      from
+      <include refid="BASE_TABLE"/>
+      where status = 1
+    </select>
+
+    <select id="findIndexBuyName" resultMap="BuyDTO">
+      select
+          id,img,title,proce,finished
+      from
+      <include refid="BASE_TABLE"/>
+      where
+        name like "%"#{name,jdbcType=VARCHAR}"%" and status = 1
+    </select>
+
+    <select id="findIndexBuyUserId" parameterType="java.lang.Integer" resultMap="BuyDTO">
+        select
+          id,img,title,proce,finished
+        from
+        <include refid="BASE_TABLE"/>
+        where user_id = #{userId ,jdbcType=INTEGER} and status = 1
+    </select>
+
+    <select id="findBuyByLimit" resultMap="BuyDTO">
+        select
+          id,img,title,price,finished
+         from
+        <include refid="BASE_TABLE"/>
+         order by id desc limit #{size} ;
+    </select>
+</mapper>

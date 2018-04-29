@@ -5,7 +5,7 @@ package com.cdtc.student.assistant.model;
  * 跳蚤实体
  * Create by pcc on 2018/4/29.
  */
-public class buyEO {
+public class BuyEO {
 
     /**
      * 跳蚤商品id
@@ -157,7 +157,7 @@ public class buyEO {
 
     @Override
     public String toString() {
-        return "buyEO{" +
+        return "BuyEO{" +
                 "id=" + id +
                 ", userId=" + userId +
                 ", img='" + img + '\'' +

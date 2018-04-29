@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.cdtc.student.assistant.dao.BannerDao" >
     <sql id="BASE_TABLE">
-    bannerEO
+    banner
     </sql>
 
     <sql id="BASE_COLUMN">
@@ -51,6 +51,6 @@
     <select id="selectAll" resultMap="Banner">
       select * from
       <include refid="BASE_TABLE"/>
-      where status = 0
+      where status = 1
     </select>
 </mapper>

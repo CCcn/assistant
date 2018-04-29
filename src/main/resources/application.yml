@@ -1,4 +1,6 @@
-
+classpath: /static
+classpath: /resources
+classpath: /META-INF/resources
 spring:
     http:
         encoding:
@@ -22,9 +24,6 @@ spring:
            date_format: yyyy-MM-dd
            time_format: HH:mm:ss
            datetime_format: yyyy-MM-dd HH:mm:ss
-
-    mvc:
-        static-path-pattern: /**
     datasource:
         name: test
         url: jdbc:mysql://127.0.0.1:3306/assistant?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true
@@ -66,6 +65,5 @@ pagehelper:
 #==================== logging Setting =====================#
 logging:
   level:
-    org.springframework: info
-    org.hibernate: info
+    org.springframework: debug
     file: /users/pcc/desktop/logs/system-service.log
