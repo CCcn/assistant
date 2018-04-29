@@ -4,7 +4,7 @@ package com.cdtc.student.assistant.model;
  * 轮播图
  * Create by pcc on 2018/4/22.
  */
-public class Banner {
+public class BannerEO {
     /**
      * 主键
      */
@@ -77,7 +77,7 @@ public class Banner {
 
     @Override
     public String toString() {
-        return "Banner{" +
+        return "BannerEO{" +
                 "id=" + id +
                 ", url='" + url + '\'' +
                 ", img='" + img + '\'' +

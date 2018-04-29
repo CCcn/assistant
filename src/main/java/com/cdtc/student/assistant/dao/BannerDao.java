@@ -1,6 +1,6 @@
 package com.cdtc.student.assistant.dao;
 
-import com.cdtc.student.assistant.model.Banner;
+import com.cdtc.student.assistant.model.BannerEO;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -16,7 +16,7 @@ public interface BannerDao {
      * 查询所有有效的banner
      * @return
      */
-    List<Banner> selectAll();
+    List<BannerEO> selectAll();
 
-    void insert(Banner banner);
+    void insert(BannerEO bannerEO);
 }

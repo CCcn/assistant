@@ -2,20 +2,20 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.cdtc.student.assistant.dao.BannerDao" >
     <sql id="BASE_TABLE">
-    banner
+    bannerEO
     </sql>
 
     <sql id="BASE_COLUMN">
     id,url,tip,img,status
   </sql>
-    <resultMap id="Banner" type="com.cdtc.student.assistant.model.Banner">
+    <resultMap id="Banner" type="com.cdtc.student.assistant.model.BannerEO">
         <result property="id" column="ID"/>
         <result property="url" column="url"/>
         <result property="tip" column="tip"/>
         <result property="img" column="img"/>
         <result property="status" column="status"/>
     </resultMap>
-    <insert id="insert" parameterType="com.cdtc.student.assistant.model.Banner">
+    <insert id="insert" parameterType="com.cdtc.student.assistant.model.BannerEO">
         insert into
         <include refid="BASE_TABLE"/>
         <trim prefix="(" suffix=")" suffixOverrides="," >

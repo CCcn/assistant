@@ -1,10 +1,9 @@
 package com.cdtc.student.assistant.controller;
 
 import com.cdtc.student.assistant.dao.BannerDao;
-import com.cdtc.student.assistant.model.Banner;
+import com.cdtc.student.assistant.model.BannerEO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,11 +22,11 @@ public class TestController {
 
     @RequestMapping(value = "/index")
     public Object index() {
-        List<Banner> banners = bannerDao.selectAll();
+        List<BannerEO> bannerEOS = bannerDao.selectAll();
 
         ModelMap modelMap = new ModelMap();
         modelMap.addAttribute("hello","hello world");
-        modelMap.addAttribute("banner",banners);
+        modelMap.addAttribute("banner", bannerEOS);
         return modelMap;
     }
 
