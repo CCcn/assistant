@@ -57,6 +57,11 @@ public class StudentEO {
      */
     private String password;
 
+    /**
+     * 头像
+     */
+    private String img;
+
     public Integer getId() {
         return id;
     }
@@ -134,5 +139,29 @@ public class StudentEO {
         } else {
             this.password = null;
         }
+    }
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
+
+    @Override
+    public String toString() {
+        return "StudentEO{" +
+                "id=" + id +
+                ", studentNumber='" + studentNumber + '\'' +
+                ", studentName='" + studentName + '\'' +
+                ", academy='" + academy + '\'' +
+                ", className='" + className + '\'' +
+                ", grade='" + grade + '\'' +
+                ", status=" + status +
+                ", gender=" + gender +
+                ", password='" + password + '\'' +
+                ", img='" + img + '\'' +
+                '}';
     }
 }
