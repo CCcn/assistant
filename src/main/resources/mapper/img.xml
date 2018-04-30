@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cdtc.student.assistant.dao.ImgDao" >
+    <sql id="BASE_TABLE">
+      img
+    </sql>
+
+    <resultMap id="ImgDTO" type="com.cdtc.student.assistant.dto.ImgDTO">
+        <result property="url" column="url"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="com.cdtc.student.assistant.model.ImgEO">
+        insert into
+        <include refid="BASE_TABLE"/>
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="url != null" >
+                url,
+            </if>
+            <if test="goodsId != null" >
+                goods_id,
+            </if>
+            <if test="type != null" >
+                type,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="url != null" >
+                #{url,jdbcType=VARCHAR},
+            </if>
+            <if test="goodsID != null" >
+                #{goodsId,jdbcType=INTEGER},
+            </if>
+            <if test="type != null" >
+                #{type,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+
+    <select id="findImgByTypeAndGoodsId" resultMap="com.cdtc.student.assistant.dto.ImgDTO">
+        select
+        url
+        from
+        <include refid="BASE_TABLE"/>
+        where type = #{type,jdbcType=INTEGER} and goods_id = #{goodsId,jdbcType=INTEGER}
+    </select>
+</mapper>

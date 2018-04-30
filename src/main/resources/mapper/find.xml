@@ -227,7 +227,7 @@
         id,img,title,place,date,finished
         from
         <include refid="BASE_TABLE"/>
-        order by id desc limit #{size} ;
+        order by id desc limit #{size}
     </select>
 
 

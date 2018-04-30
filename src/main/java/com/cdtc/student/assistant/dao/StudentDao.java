@@ -17,7 +17,7 @@ public interface StudentDao {
     void insert(StudentEO student);
 
     /**
-     * 更新、换头像、更改状态、改密码等等
+     * 更新、更改状态、改密码等等
      * @param student
      */
     void update(StudentEO student);
@@ -27,9 +27,15 @@ public interface StudentDao {
      * @param studentNum 学号
      * @return 实体
      */
-    StudentEO findByStudentNum(String studentNum);
+    StudentEO findByStudentNumAndPassword(String studentNum, String password);
 
-    
+    /**
+     * 更改头像
+     * @param id
+     * @param img
+     */
+    void updateImg(String id, String img);
+
 
 
 
