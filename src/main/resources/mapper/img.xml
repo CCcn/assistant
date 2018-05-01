@@ -36,7 +36,7 @@
         </trim>
     </insert>
 
-    <select id="findImgByTypeAndGoodsId" resultMap="com.cdtc.student.assistant.dto.ImgDTO">
+    <select id="findImgByTypeAndGoodsId" resultMap="ImgDTO">
         select
         url
         from

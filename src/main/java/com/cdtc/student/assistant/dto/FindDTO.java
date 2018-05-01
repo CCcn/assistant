@@ -33,6 +33,11 @@ public class FindDTO {
     private Integer finished;
 
     /**
+     * 描述信息
+     */
+    private String description;
+
+    /**
      * 时间
      */
     private String date;
@@ -85,6 +90,14 @@ public class FindDTO {
         this.date = date;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     @Override
     public String toString() {
         return "FindDTO{" +
@@ -93,6 +106,7 @@ public class FindDTO {
                 ", title='" + title + '\'' +
                 ", place='" + place + '\'' +
                 ", finished=" + finished +
+                ", description='" + description + '\'' +
                 ", date='" + date + '\'' +
                 '}';
     }

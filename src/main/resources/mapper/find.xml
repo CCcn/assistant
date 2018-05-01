@@ -15,6 +15,7 @@
         <result property="place" column="place"/>
         <result property="date" column="date"/>
         <result property="finished" column="finished" />
+        <result property="description" column="description" />
     </resultMap>
 
     <resultMap id="FindDetailDTO" type="com.cdtc.student.assistant.dto.FindDetailDTO">
@@ -205,7 +206,7 @@
       where status = 1
     </select>
 
-    <select id="findIndexBuyGoodsName" resultMap="FindDTO">
+    <select id="findIndexBuyName" resultMap="FindDTO">
       select
         id,img,title,place,date,finished
       from
@@ -214,9 +215,9 @@
         name like "%"#{goodsName,jdbcType=VARCHAR}"%" and status = 1
     </select>
 
-    <select id="findIndexBuyUserId" parameterType="java.lang.Integer" resultMap="FindDTO">
+    <select id="findFindByUserId" parameterType="java.lang.Integer" resultMap="FindDTO">
         select
-        id,img,title,place,date,finished
+        id,img,title,place,date,finished,description
         from
         <include refid="BASE_TABLE"/>
         where user_id = #{userId ,jdbcType=INTEGER} and status = 1

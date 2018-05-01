@@ -7,6 +7,11 @@ package com.cdtc.student.assistant.dto;
 public class StudentDTO {
 
     /**
+     * id
+     */
+    private Integer id;
+
+    /**
      * 学号
      */
     private String studentNumber;
@@ -40,6 +45,14 @@ public class StudentDTO {
      * 性别
      */
     private Integer gender;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getStudentNumber() {
         return studentNumber;

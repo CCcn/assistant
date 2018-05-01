@@ -14,4 +14,11 @@ public class ResponseCodeConstant {
      *  参数不完整
      */
     public static final int PARAMETER_LOST_ERROR = 400;
+
+    /**
+     * 用户名或密码不正确
+     */
+    public static final int USERNAME_OR_PASSWORD_ERROR = 401;
+
+
 }

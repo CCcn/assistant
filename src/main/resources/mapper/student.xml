@@ -5,132 +5,102 @@
       student
     </sql>
 
-    <resultMap id="LoveDTO" type="com.cdtc.student.assistant.dto.LoveDTO">
-        <result property="title" column="title"/>
-        <result property="content" column="content"/>
+    <resultMap id="StudentDTO" type="com.cdtc.student.assistant.dto.StudentDTO">
+        <result property="studentNumber" column="student_number"/>
+        <result property="id" column="id"/>
+        <result property="name" column="student_name"/>
+        <result property="img" column="img"/>
+        <result property="className" column="class_name"/>
+        <result property="gender" column="gender"/>
+        <result property="academy" column="academy"/>
+        <result property="grade" column="grade"/>
     </resultMap>
 
-    <insert id="insert" parameterType="com.cdtc.student.assistant.model.LoveEO">
+    <insert id="insert" parameterType="com.cdtc.student.assistant.model.StudentEO">
         insert into
         <include refid="BASE_TABLE"/>
         <trim prefix="(" suffix=")" suffixOverrides="," >
-            <if test="userId != null" >
-                user_id,
+            <if test="studentNumber != null" >
+                student_number,
             </if>
-            <if test="title != null" >
-                title,
+            <if test="studentName != null" >
+                student_name,
             </if>
-            <if test="like != null" >
-                like,
+            <if test="academy != null" >
+                academy,
             </if>
-            <if test="content != null" >
-                content,
+            <if test="className != null" >
+                class_name,
             </if>
-            <if test="comment != null" >
-                comment,
+            <if test="grade != null" >
+                grade,
             </if>
             <if test="status != null" >
                 status,
             </if>
+            <if test="gender != null" >
+                gender,
+            </if>
+            <if test="password != null" >
+                encode_password,
+            </if>
+            <if test="img != null" >
+                img,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides="," >
-            <if test="userId != null" >
-                #{userId,jdbcType=INTEGER},
+            <if test="studentNumber != null" >
+                #{studentNumber,jdbcType=VARCHAR},
             </if>
-            <if test="title != null" >
-                #{title,jdbcType=VARCHAR},
+            <if test="studentName != null" >
+                #{studentName,jdbcType=VARCHAR},
             </if>
-            <if test="like != null" >
-                #{like,jdbcType=INTEGER},
+            <if test="academy != null" >
+                #{academy,jdbcType=VARCHAR},
             </if>
-            <if test="content != null" >
-                #{content,jdbcType=VARCHAR},
+            <if test="className != null" >
+                #{className,jdbcType=VARCHAR},
             </if>
-            <if test="comment != null" >
-                #{comment,jdbcType=VARCHAR},
+            <if test="grade != null" >
+                #{grade,jdbcType=VARCHAR},
             </if>
             <if test="status != null" >
                 #{status,jdbcType=INTEGER},
+            </if>
+            <if test="gender != null" >
+                #{gender,jdbcType=INTEGER},
+            </if>
+            <if test="password != null" >
+                #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="img != null" >
+                #{img,jdbcType=VARCHAR},
             </if>
         </trim>
     </insert>
 
-    <update id="update" parameterType="com.cdtc.student.assistant.model.LoveEO">
-        update
-        <include refid="BASE_TABLE"/>
-        set
-        <trim prefix="(" suffix=")" suffixOverrides="," >
-            <if test="userId != null" >
-                user_id,
-            </if>
-            <if test="title != null" >
-                title,
-            </if>
-            <if test="like != null" >
-                like,
-            </if>
-            <if test="content != null" >
-                content,
-            </if>
-            <if test="comment != null" >
-                comment,
-            </if>
-            <if test="status != null" >
-                status,
-            </if>
-        </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides="," >
-            <if test="userId != null" >
-                #{userId,jdbcType=INTEGER},
-            </if>
-            <if test="title != null" >
-                #{title,jdbcType=VARCHAR},
-            </if>
-            <if test="like != null" >
-                #{like,jdbcType=INTEGER},
-            </if>
-            <if test="content != null" >
-                #{content,jdbcType=VARCHAR},
-            </if>
-            <if test="comment != null" >
-                #{comment,jdbcType=VARCHAR},
-            </if>
-            <if test="status != null" >
-                #{status,jdbcType=INTEGER},
-            </if>
-        </trim>
-        where id = #{id}
-    </update>
-
-    <update id="delete" parameterType="java.lang.Integer">
-        update
-        <include refid="BASE_TABLE"/>
-        set
-         status = 0
-        where  id = #{id}
-    </update>
-
-    <select id="findIndexLove" resultMap="LoveDTO">
+    <select id="findByStudentNumAndPassword" resultMap="StudentDTO">
       select
-        title,content
-      from
+        id,student_number,student_name,img,class_name,gender,academy,grade
+      from 
       <include refid="BASE_TABLE"/>
-      where status = 1
+      where student_number = #{studentNumber,jdbcType=VARCHAR} and encode_password = #{password}
     </select>
 
-    <select id="findLoveByUserID" parameterType="java.lang.Integer" resultMap="LoveDTO">
-        select
-          title,content
-        from
+    <update id="updateImg">
+        update 
         <include refid="BASE_TABLE"/>
-        where user_id = #{userId ,jdbcType=INTEGER} and status = 1
-    </select>
+        set
+        img = #{img,jdbcType=VARCHAR}
+        where student_number = #{studentNumber,jdbcType = VARCHAR}
+    </update>
 
-    <select id="findLoveByLimit" resultMap="LoveDTO">
-        select
-       title,content
-        from
+    <update id="updatePassword">
+        update
         <include refid="BASE_TABLE"/>
-        order by id desc limit #{size}
-    </select>
+        set
+         password = #{password}
+        where  student_number = #{studentNumber,jdbcType=VARCHAR}
+    </update>
+
 </mapper>

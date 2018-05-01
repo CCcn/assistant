@@ -13,4 +13,9 @@ public class ResponseMessageConstant {
      * 参数错误
      */
     public static final String  PARAMETER_LOST_ERROR = "参数不完整";
+
+    /**
+     * 用户名或密码不正确
+     */
+    public static final String USERNAME_OR_PASSWORD_ERROR = "用户名或密码不正确";
 }

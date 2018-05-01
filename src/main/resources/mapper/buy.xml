@@ -48,9 +48,6 @@
             <if test="owner != null" >
                 owner,
             </if>
-            <if test="ownerId != null" >
-                owner_id,
-            </if>
             <if test="status != null" >
                 status,
             </if>
@@ -83,14 +80,8 @@
             <if test="owner != null" >
                 #{owner,jdbcType=VARCHAR},
             </if>
-            <if test="ownerId != null" >
-                #{ownerId,jdbcType=INTEGER},
-            </if>
             <if test="status != null" >
                 #{status,jdbcType=INTEGER},
-            </if>
-            <if test="ownerId != null" >
-                #{ownerId,jdbcType=INTEGER},
             </if>
             <if test="finished != null" >
                 #{finished,jdbcType=INTEGER},
@@ -127,9 +118,6 @@
             <if test="owner != null" >
                 owner,
             </if>
-            <if test="ownerId != null" >
-                owner_id,
-            </if>
             <if test="status != null" >
                 status,
             </if>
@@ -162,14 +150,8 @@
             <if test="owner != null" >
                 #{owner,jdbcType=VARCHAR},
             </if>
-            <if test="ownerId != null" >
-                #{ownerId,jdbcType=INTEGER},
-            </if>
             <if test="status != null" >
                 #{status,jdbcType=INTEGER},
-            </if>
-            <if test="ownerId != null" >
-                #{ownerId,jdbcType=INTEGER},
             </if>
             <if test="finished != null" >
                 #{finished,jdbcType=INTEGER},

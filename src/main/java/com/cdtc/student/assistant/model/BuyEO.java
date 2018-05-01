@@ -1,10 +1,13 @@
 package com.cdtc.student.assistant.model;
 
+import org.springframework.context.annotation.Scope;
+
 /**
  *
  * 跳蚤实体
  * Create by pcc on 2018/4/29.
  */
+@Scope("prototype")
 public class BuyEO {
 
     /**
@@ -46,11 +49,6 @@ public class BuyEO {
      * 商品发布者、联系人
      */
     private String owner;
-
-    /**
-     * 联系人id
-     */
-    private String ownerId;
 
     /**
      * 此商品状态
@@ -136,15 +134,6 @@ public class BuyEO {
     public void setOwner(String owner) {
         this.owner = owner;
     }
-
-    public String getOwnerId() {
-        return ownerId;
-    }
-
-    public void setOwnerId(String ownerId) {
-        this.ownerId = ownerId;
-    }
-
     public Integer getStatus() {
         return status;
     }
@@ -180,7 +169,6 @@ public class BuyEO {
                 ", price='" + price + '\'' +
                 ", description='" + description + '\'' +
                 ", owner='" + owner + '\'' +
-                ", ownerId='" + ownerId + '\'' +
                 ", status=" + status +
                 ", finished=" + finished +
                 ", hasImg=" + hasImg +

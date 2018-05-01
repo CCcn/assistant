@@ -8,6 +8,8 @@ import com.cdtc.student.assistant.dao.FindDao;
 import com.cdtc.student.assistant.dao.LoveDao;
 import com.cdtc.student.assistant.dto.BannerDTO;
 import com.cdtc.student.assistant.model.BannerEO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.ui.ModelMap;
@@ -24,6 +26,8 @@ import java.util.List;
 @RestController("index")
 @EnableAutoConfiguration
 public class IndexController {
+
+    Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
     private BannerDao bannerDao;

@@ -9,17 +9,11 @@ import java.util.Date;
  */
 public class DateUtils {
 
-    public static Date getFormatNow() {
+    public static String getFormatNow() {
         Date currentTime = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String date = formatter.format(currentTime);
-        System.out.println(date);
-        try {
-            return formatter.parse(date);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return new Date();
+        return formatter.format(currentTime);
+
     }
 
     public static void main(String[] d ){
