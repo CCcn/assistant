@@ -2,8 +2,11 @@ package com.cdtc.student.assistant.controller;
 
 import com.cdtc.student.assistant.common.ResponseCodeConstant;
 import com.cdtc.student.assistant.common.ResponseMessageConstant;
+import com.cdtc.student.assistant.dao.ContactDao;
 import com.cdtc.student.assistant.dao.FindDao;
+import com.cdtc.student.assistant.model.ContactEO;
 import com.cdtc.student.assistant.model.FindEO;
+import com.cdtc.student.assistant.request.CreateFindRequest;
 import javafx.geometry.Pos;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,8 +33,11 @@ public class FindController {
     @Autowired
     private FindDao findDao;
 
+    @Autowired
+    private ContactDao contactDao;
+
     @RequestMapping(value = "createFind" , method = RequestMethod.POST)
-    public Object create(@RequestBody FindEO find) {
+    public Object create(@RequestBody CreateFindRequest find) {
 
         ModelMap modelMap = new ModelMap();
         if (find == null) {
@@ -40,14 +46,28 @@ public class FindController {
             logger.info("create: null");
             return modelMap;
         }
-        if (find.getUserId() == null || find.getDescription() == null || find.getPlace() == null) {
+        if (find.getFind().getUserId() == null || find.getFind().getDescription() == null || find.getFind().getPlace() == null) {
             modelMap.addAttribute("code", ResponseCodeConstant.PARAMETER_LOST_ERROR);
             modelMap.addAttribute("message", ResponseMessageConstant.PARAMETER_LOST_ERROR);
             logger.info("create :参数不正确：" + find);
             return modelMap;
         }
 
-        findDao.insert(find);
+        //没有图片，给默认图片
+        if (find.getFind().getImg() == null || find.getFind().getImg().length() == 0) {
+            find.getFind().setImg("/banner/1.jpg");
+        }
+
+        findDao.insert(find.getFind());
+        Integer findId = find.getFind().getId();
+
+        for (ContactEO contact : find.getContacts()) {
+            contact.setUserId(find.getFind().getUserId());
+            contact.setGoodsId(findId);
+            contact.setType(0);
+        }
+
+        contactDao.insertList(find.getContacts());
 
         modelMap.addAttribute("code", ResponseCodeConstant.OK);
         modelMap.addAttribute("message", ResponseMessageConstant.OK);

@@ -55,7 +55,7 @@
         (user_id, contact_type,number,type,goods_id)
         values
         <foreach collection="list" item="item" index="index" separator=",">
-            (#{item.userId,jdbcType=INTEGER}, #{item.contactType,jdbcType=VARCHR},#{item.number,jdbcType=VARCHAR},#{item.type,jdbcType=INTEGER},#{item.goodsId,jdbcType=INTEGER})
+            (#{item.userId,jdbcType=INTEGER}, #{item.contactType,jdbcType=VARCHAR},#{item.number,jdbcType=VARCHAR},#{item.type,jdbcType=INTEGER},#{item.goodsId,jdbcType=INTEGER})
         </foreach>
     </insert>
 

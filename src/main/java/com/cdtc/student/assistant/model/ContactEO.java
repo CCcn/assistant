@@ -20,7 +20,7 @@ public class ContactEO {
      * 联系方式 u类型
      *   wx
      *   qq
-     *   mobile
+     *   phone
      */
     private String contactType;
 
@@ -40,6 +40,7 @@ public class ContactEO {
      *  跳蚤商品或者失物招领的id
      */
     private Integer goodsId;
+
 
     public Integer getId() {
         return id;

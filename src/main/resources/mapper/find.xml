@@ -29,7 +29,7 @@
 
 
 
-    <insert id="insert" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+    <insert id="insert" parameterType="com.cdtc.student.assistant.model.FindEO"  useGeneratedKeys="true" keyProperty="id" keyColumn="id">
         insert into
         <include refid="BASE_TABLE"/>
         <trim prefix="(" suffix=")" suffixOverrides="," >
