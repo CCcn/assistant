@@ -3,7 +3,10 @@ package com.cdtc.student.assistant.controller;
 import com.cdtc.student.assistant.common.ResponseCodeConstant;
 import com.cdtc.student.assistant.common.ResponseMessageConstant;
 import com.cdtc.student.assistant.dao.BuyDao;
+import com.cdtc.student.assistant.dao.ContactDao;
 import com.cdtc.student.assistant.model.BuyEO;
+import com.cdtc.student.assistant.model.ContactEO;
+import com.cdtc.student.assistant.request.CreateBuyRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +32,9 @@ public class BuyController {
     @Autowired
     private BuyDao buyDao;
 
+    @Autowired
+    private ContactDao contactDao;
+
     /**
      * 没有图片
      */
@@ -46,7 +52,7 @@ public class BuyController {
      * @return
      */
     @RequestMapping(value = "createBuy", method = RequestMethod.POST)
-    public Object create(@RequestBody BuyEO buy) {
+    public Object create(@RequestBody CreateBuyRequest buy) {
         ModelMap modelMap = new ModelMap();
         if (buy == null) {
             modelMap.addAttribute("code", ResponseCodeConstant.PARAMETER_LOST_ERROR);
@@ -54,14 +60,29 @@ public class BuyController {
             logger.info("create : null");
             return modelMap;
         }
-        if (buy.getUserId() == null || buy.getOwner() == null || buy.getPrice() == null) {
+        if (buy.getBuy().getUserId() == null || buy.getBuy().getOwner() == null || buy.getBuy() == null) {
             modelMap.addAttribute("code", ResponseCodeConstant.PARAMETER_LOST_ERROR);
             modelMap.addAttribute("message", ResponseMessageConstant.PARAMETER_LOST_ERROR);
             logger.info("create :参数不正确：" + buy);
             return modelMap;
         }
 
-        buyDao.insert(buy);
+        //没有图片，给默认图片
+        if (buy.getBuy().getImg() == null || buy.getBuy().getImg().length() == 0) {
+            buy.getBuy().setImg("/banner/1.jpg");
+        }
+
+        buyDao.insert(buy.getBuy());
+
+        Integer findId = buy.getBuy().getId();
+
+        for (ContactEO contact : buy.getContacts()) {
+            contact.setUserId(buy.getBuy().getUserId());
+            contact.setGoodsId(findId);
+            contact.setType(0);
+        }
+
+        contactDao.insertList(buy.getContacts());
 
         modelMap.addAttribute("code", ResponseCodeConstant.OK);
         modelMap.addAttribute("message", ResponseMessageConstant.OK);

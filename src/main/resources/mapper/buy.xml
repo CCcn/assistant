@@ -190,7 +190,7 @@
 
     <select id="findIndexBuyName" resultMap="BuyDTO">
       select
-          id,img,title,proce,finished
+          id,img,title,price,finished
       from
       <include refid="BASE_TABLE"/>
       where
@@ -199,7 +199,7 @@
 
     <select id="findIndexBuyUserId" parameterType="java.lang.Integer" resultMap="BuyDTO">
         select
-          id,img,title,proce,finished
+          id,img,title,price,finished
         from
         <include refid="BASE_TABLE"/>
         where user_id = #{userId ,jdbcType=INTEGER} and status = 1
