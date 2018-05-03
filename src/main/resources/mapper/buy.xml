@@ -173,7 +173,7 @@
 
     <select id="findBuyDetailById" parameterType="java.lang.Integer" resultMap="BuyDetailDTO">
         select
-          name,price,dercription,owner,finished
+          name,price,description,owner,finished
         from
         <include refid="BASE_TABLE" />
         where

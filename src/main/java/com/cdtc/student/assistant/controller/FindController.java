@@ -4,9 +4,13 @@ import com.cdtc.student.assistant.common.ResponseCodeConstant;
 import com.cdtc.student.assistant.common.ResponseMessageConstant;
 import com.cdtc.student.assistant.dao.ContactDao;
 import com.cdtc.student.assistant.dao.FindDao;
+import com.cdtc.student.assistant.dto.FindDetailDTO;
 import com.cdtc.student.assistant.model.ContactEO;
 import com.cdtc.student.assistant.model.FindEO;
 import com.cdtc.student.assistant.request.CreateFindRequest;
+import com.cdtc.student.assistant.response.BuyDetailResponse;
+import com.cdtc.student.assistant.response.FindDetailResponse;
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import javafx.geometry.Pos;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,6 +40,8 @@ public class FindController {
     @Autowired
     private ContactDao contactDao;
 
+    private final Integer CONTACT_TYPE_SHOP = 0;
+
     @RequestMapping(value = "createFind" , method = RequestMethod.POST)
     public Object create(@RequestBody CreateFindRequest find) {
 
@@ -64,7 +70,7 @@ public class FindController {
         for (ContactEO contact : find.getContacts()) {
             contact.setUserId(find.getFind().getUserId());
             contact.setGoodsId(findId);
-            contact.setType(0);
+            contact.setType(CONTACT_TYPE_SHOP);
         }
 
         contactDao.insertList(find.getContacts());
@@ -73,6 +79,31 @@ public class FindController {
         modelMap.addAttribute("message", ResponseMessageConstant.OK);
 
         logger.info("create: 插入成功：" + find);
+        return modelMap;
+    }
+
+
+    @RequestMapping(value = "showFind")
+    public Object showFind(Integer id) {
+
+        ModelMap modelMap = new ModelMap();
+
+        if (id == null) {
+            modelMap.addAttribute("code", ResponseCodeConstant.PARAMETER_LOST_ERROR);
+            modelMap.addAttribute("message", ResponseMessageConstant.PARAMETER_LOST_ERROR);
+            return modelMap;
+        }
+        modelMap.addAttribute("code", ResponseCodeConstant.OK);
+        modelMap.addAttribute("message", ResponseMessageConstant.OK);
+
+
+        FindDetailResponse findDetailResponse = new FindDetailResponse();
+
+        findDetailResponse.setFindDetail(findDao.findFindDetailById(id));
+        findDetailResponse.setContacts(contactDao.findContactByTypeAndGoodsId(CONTACT_TYPE_SHOP,id));
+
+        modelMap.addAttribute("data", findDetailResponse);
+
         return modelMap;
     }
 

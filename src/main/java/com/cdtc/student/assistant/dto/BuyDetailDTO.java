@@ -31,11 +31,6 @@ public class BuyDetailDTO {
      */
     private Integer finished;
 
-    /**
-     * 联系方式
-     */
-    private List<ContactDTO> contacts;
-
     public String getName() {
         return name;
     }
@@ -68,14 +63,6 @@ public class BuyDetailDTO {
         this.owner = owner;
     }
 
-    public List<ContactDTO> getContacts() {
-        return contacts;
-    }
-
-    public void setContacts(List<ContactDTO> contacts) {
-        this.contacts = contacts;
-    }
-
     public Integer getFinished() {
         return finished;
     }
@@ -92,7 +79,6 @@ public class BuyDetailDTO {
                 ", description='" + description + '\'' +
                 ", owner='" + owner + '\'' +
                 ", finished=" + finished +
-                ", contacts=" + contacts +
                 '}';
     }
 }

@@ -4,9 +4,11 @@ import com.cdtc.student.assistant.common.ResponseCodeConstant;
 import com.cdtc.student.assistant.common.ResponseMessageConstant;
 import com.cdtc.student.assistant.dao.BuyDao;
 import com.cdtc.student.assistant.dao.ContactDao;
+import com.cdtc.student.assistant.dto.ContactDTO;
 import com.cdtc.student.assistant.model.BuyEO;
 import com.cdtc.student.assistant.model.ContactEO;
 import com.cdtc.student.assistant.request.CreateBuyRequest;
+import com.cdtc.student.assistant.response.BuyDetailResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * 跳蚤请求接口
@@ -34,6 +38,8 @@ public class BuyController {
 
     @Autowired
     private ContactDao contactDao;
+
+    private final Integer  CONTACT_TYPE_SHOP = 1;
 
     /**
      * 没有图片
@@ -79,7 +85,7 @@ public class BuyController {
         for (ContactEO contact : buy.getContacts()) {
             contact.setUserId(buy.getBuy().getUserId());
             contact.setGoodsId(findId);
-            contact.setType(0);
+            contact.setType(CONTACT_TYPE_SHOP);
         }
 
         contactDao.insertList(buy.getContacts());
@@ -151,9 +157,15 @@ public class BuyController {
         }
         modelMap.addAttribute("code", ResponseCodeConstant.OK);
         modelMap.addAttribute("message", ResponseMessageConstant.OK);
-        modelMap.addAttribute("data", buyDao.findBuyDetailById(id));
 
-        return null;
+
+        BuyDetailResponse buyDetailResponse = new BuyDetailResponse();
+        buyDetailResponse.setBuyDetail( buyDao.findBuyDetailById(id));
+        buyDetailResponse.setContacts(contactDao.findContactByTypeAndGoodsId(CONTACT_TYPE_SHOP,id));
+
+        modelMap.addAttribute("data",buyDetailResponse);
+
+        return modelMap;
     }
 
     /**

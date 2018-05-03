@@ -27,11 +27,6 @@ public class FindDetailDTO {
     private String lostPlace;
 
     /**
-     * 联系方式
-     */
-    private List<ContactDTO> contacts;
-
-    /**
      * 描述
      */
     private String description;
@@ -74,15 +69,6 @@ public class FindDetailDTO {
     public void setLostPlace(String lostPlace) {
         this.lostPlace = lostPlace;
     }
-
-    public List<ContactDTO> getContacts() {
-        return contacts;
-    }
-
-    public void setContacts(List<ContactDTO> contacts) {
-        this.contacts = contacts;
-    }
-
     public String getDescription() {
         return description;
     }
@@ -106,7 +92,6 @@ public class FindDetailDTO {
                 ", contactPerson='" + contactPerson + '\'' +
                 ", lostDate='" + lostDate + '\'' +
                 ", lostPlace='" + lostPlace + '\'' +
-                ", contacts=" + contacts +
                 ", description='" + description + '\'' +
                 ", finished=" + finished +
                 '}';

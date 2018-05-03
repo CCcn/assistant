@@ -191,7 +191,7 @@
 
     <select id="findFindDetailById" parameterType="java.lang.Integer" resultMap="FindDetailDTO">
         select
-          name,contact_person,dercription,date,place,finished
+          name,contact_person,description,date,place,finished
         from
         <include refid="BASE_TABLE" />
         where
@@ -200,7 +200,7 @@
 
     <select id="findIndexFind" resultMap="FindDTO">
       select
-        id,img,title,place,date,finished
+        id,img,title,place,date,finished,description
       from
       <include refid="BASE_TABLE"/>
       where status = 1
@@ -208,7 +208,7 @@
 
     <select id="findIndexBuyName" resultMap="FindDTO">
       select
-        id,img,title,place,date,finished
+        id,img,title,place,date,finished,description
       from
       <include refid="BASE_TABLE"/>
       where
@@ -225,7 +225,7 @@
 
     <select id="findFindByLimit" resultMap="FindDTO">
         select
-        id,img,title,place,date,finished
+        id,img,title,place,date,finished,description
         from
         <include refid="BASE_TABLE"/>
         order by id desc limit #{size}
