@@ -7,6 +7,7 @@
 
     <resultMap id="LoveDTO" type="com.cdtc.student.assistant.dto.LoveDTO">
         <result property="title" column="title"/>
+        <result property="id" column="id"/>
         <result property="content" column="content"/>
     </resultMap>
 
@@ -20,8 +21,8 @@
             <if test="title != null" >
                 title,
             </if>
-            <if test="like != null" >
-                like,
+            <if test="likes != null" >
+                likes,
             </if>
             <if test="content != null" >
                 content,
@@ -40,8 +41,8 @@
             <if test="title != null" >
                 #{title,jdbcType=VARCHAR},
             </if>
-            <if test="like != null" >
-                #{like,jdbcType=INTEGER},
+            <if test="likes != null" >
+                #{likes,jdbcType=INTEGER},
             </if>
             <if test="content != null" >
                 #{content,jdbcType=VARCHAR},
@@ -93,7 +94,7 @@
                 #{content,jdbcType=VARCHAR},
             </if>
             <if test="comment != null" >
-                #{comment,jdbcType=VARCHAR},
+                #{comment,jdbcType=INTEGER},
             </if>
             <if test="status != null" >
                 #{status,jdbcType=INTEGER},
@@ -112,7 +113,7 @@
 
     <select id="findIndexLove" resultMap="LoveDTO">
       select
-        title,content
+        id,title,content
       from
       <include refid="BASE_TABLE"/>
       where status = 1
@@ -120,7 +121,7 @@
 
     <select id="findLoveByUserID" parameterType="java.lang.Integer" resultMap="LoveDTO">
         select
-          title,content
+          id,title,content
         from
         <include refid="BASE_TABLE"/>
         where user_id = #{userId ,jdbcType=INTEGER} and status = 1
@@ -128,7 +129,7 @@
 
     <select id="findLoveByLimit" resultMap="LoveDTO">
         select
-       title,content
+        id,title,content
         from
         <include refid="BASE_TABLE"/>
         order by id desc limit #{size}

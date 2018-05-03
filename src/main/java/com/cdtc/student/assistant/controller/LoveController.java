@@ -4,6 +4,7 @@ import com.cdtc.student.assistant.common.ResponseCodeConstant;
 import com.cdtc.student.assistant.common.ResponseMessageConstant;
 import com.cdtc.student.assistant.dao.LoveDao;
 import com.cdtc.student.assistant.model.LoveEO;
+import com.cdtc.student.assistant.request.CreateLoveRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,7 @@ public class LoveController {
 
 
     @RequestMapping(value = "createLove" , method = RequestMethod.POST)
-    public Object create(@RequestBody LoveEO love) {
+    public Object create(@RequestBody CreateLoveRequest love) {
 
         ModelMap modelMap = new ModelMap();
         if (love == null) {
@@ -38,14 +39,14 @@ public class LoveController {
             modelMap.addAttribute("message", ResponseMessageConstant.PARAMETER_LOST_ERROR);
             return modelMap;
         }
-        if (love.getUserId() == null || love.getTitle() == null || love.getContent() == null) {
+        if (love.getLove().getUserId() == null || love.getLove().getTitle() == null || love.getLove().getContent() == null) {
             modelMap.addAttribute("code", ResponseCodeConstant.PARAMETER_LOST_ERROR);
             modelMap.addAttribute("message", ResponseMessageConstant.PARAMETER_LOST_ERROR);
             logger.info("create :参数不正确：" + love);
             return modelMap;
         }
 
-        loveDao.insert(love);
+        loveDao.insert(love.getLove());
 
         modelMap.addAttribute("code", ResponseCodeConstant.OK);
         modelMap.addAttribute("message", ResponseMessageConstant.OK);

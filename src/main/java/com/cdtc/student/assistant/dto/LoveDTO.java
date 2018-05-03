@@ -5,6 +5,8 @@ package com.cdtc.student.assistant.dto;
  */
 public class LoveDTO {
 
+    private Integer id;
+
     /**
      *标题
      */
@@ -14,6 +16,14 @@ public class LoveDTO {
      * 内容
      */
     private String content;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getTitle() {
         return title;
@@ -34,7 +44,8 @@ public class LoveDTO {
     @Override
     public String toString() {
         return "LoveDTO{" +
-                "title='" + title + '\'' +
+                "id=" + id +
+                ", title='" + title + '\'' +
                 ", content='" + content + '\'' +
                 '}';
     }

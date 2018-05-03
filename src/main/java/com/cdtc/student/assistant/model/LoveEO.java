@@ -24,7 +24,7 @@ public class LoveEO {
     /**
      * 点赞人数
      */
-    private Integer like;
+    private Integer likes;
 
     /**
      * 表白内容
@@ -68,12 +68,12 @@ public class LoveEO {
         this.title = title;
     }
 
-    public Integer getLike() {
-        return like;
+    public Integer getLikes() {
+        return likes;
     }
 
-    public void setLike(Integer like) {
-        this.like = like;
+    public void setLikes(Integer likes) {
+        this.likes = likes;
     }
 
     public String getContent() {
