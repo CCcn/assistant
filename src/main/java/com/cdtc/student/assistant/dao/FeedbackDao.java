@@ -1,7 +1,6 @@
 package com.cdtc.student.assistant.dao;
 
 import com.cdtc.student.assistant.model.FeedbackEO;
-import com.sun.tools.corba.se.idl.InterfaceGen;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

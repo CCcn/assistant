@@ -66,4 +66,6 @@ pagehelper:
 logging:
   level:
     org.springframework: debug
-    file: /users/pcc/desktop/logs/system-service.log
+    file: C:/system-service.log
+server:
+  port: 8087
