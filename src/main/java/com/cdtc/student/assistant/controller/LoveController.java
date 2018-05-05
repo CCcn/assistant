@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class LoveController {
 
     Logger logger = LoggerFactory.getLogger(getClass());
+
     @Autowired
     private LoveService loveService;
 

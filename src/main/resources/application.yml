@@ -65,7 +65,7 @@ pagehelper:
 #==================== logging Setting =====================#
 logging:
   level:
-    org.springframework: debug
+    org.springframework: info
     file: C:/system-service.log
 server:
   port: 8087

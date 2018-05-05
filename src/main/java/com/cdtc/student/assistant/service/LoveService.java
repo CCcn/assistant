@@ -6,12 +6,14 @@ import com.cdtc.student.assistant.model.LoveEO;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
  * Create by pcc on 2018/5/6.
  */
+@Service
 public class LoveService {
 
     @Autowired
