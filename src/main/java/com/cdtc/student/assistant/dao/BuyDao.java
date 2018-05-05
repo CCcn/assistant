@@ -43,7 +43,7 @@ public interface BuyDao {
 
     /**
      * 用于app内展示
-     *  后期实现分页
+     *  分页
      *  首页
      * @return list buyDTO
      */

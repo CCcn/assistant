@@ -177,7 +177,7 @@
         from
         <include refid="BASE_TABLE" />
         where
-        id = #{id,jdbcType=INTEGER} and status = 1
+        id = #{id,jdbcType=INTEGER} and status = 1 ORDER BY id DESC
     </select>
 
     <select id="findIndexBuy" resultMap="BuyDTO">
@@ -185,7 +185,7 @@
         id,img,title,price,finished
       from
       <include refid="BASE_TABLE"/>
-      where status = 1
+      where status = 1 ORDER BY id DESC
     </select>
 
     <select id="findIndexBuyName" resultMap="BuyDTO">
@@ -194,7 +194,7 @@
       from
       <include refid="BASE_TABLE"/>
       where
-        name like "%"#{name,jdbcType=VARCHAR}"%" and status = 1
+        name like "%"#{name,jdbcType=VARCHAR}"%" and status = 1 ORDER BY id DESC
     </select>
 
     <select id="findIndexBuyUserId" parameterType="java.lang.Integer" resultMap="BuyDTO">
@@ -202,7 +202,7 @@
           id,img,title,price,finished
         from
         <include refid="BASE_TABLE"/>
-        where user_id = #{userId ,jdbcType=INTEGER} and status = 1
+        where user_id = #{userId ,jdbcType=INTEGER} and status = 1 ORDER BY id DESC
     </select>
 
     <select id="findBuyByLimit" resultMap="BuyDTO">

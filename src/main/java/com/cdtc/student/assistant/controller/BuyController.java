@@ -7,8 +7,12 @@ import com.cdtc.student.assistant.dao.ContactDao;
 import com.cdtc.student.assistant.dto.ContactDTO;
 import com.cdtc.student.assistant.model.BuyEO;
 import com.cdtc.student.assistant.model.ContactEO;
+import com.cdtc.student.assistant.request.BasePageRequest;
 import com.cdtc.student.assistant.request.CreateBuyRequest;
+import com.cdtc.student.assistant.request.NamePageRequest;
+import com.cdtc.student.assistant.request.UserIdPageRequest;
 import com.cdtc.student.assistant.response.BuyDetailResponse;
+import com.cdtc.student.assistant.service.BuyService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,13 +37,7 @@ public class BuyController {
 
     Logger logger = LoggerFactory.getLogger(getClass());
 
-    @Autowired
-    private BuyDao buyDao;
-
-    @Autowired
-    private ContactDao contactDao;
-
-    private final Integer  CONTACT_TYPE_SHOP = 1;
+    private final Integer CONTACT_TYPE_SHOP = 1;
 
     /**
      * 没有图片
@@ -51,9 +49,13 @@ public class BuyController {
      */
     private final int HAS_IMG = 1;
 
+    @Autowired
+    private BuyService buyService;
+
 
     /**
      * 暂时没做图片上传
+     *
      * @param buy
      * @return
      */
@@ -78,17 +80,7 @@ public class BuyController {
             buy.getBuy().setImg("/banner/1.jpg");
         }
 
-        buyDao.insert(buy.getBuy());
-
-        Integer findId = buy.getBuy().getId();
-
-        for (ContactEO contact : buy.getContacts()) {
-            contact.setUserId(buy.getBuy().getUserId());
-            contact.setGoodsId(findId);
-            contact.setType(CONTACT_TYPE_SHOP);
-        }
-
-        contactDao.insertList(buy.getContacts());
+        buyService.insert(buy);
 
         modelMap.addAttribute("code", ResponseCodeConstant.OK);
         modelMap.addAttribute("message", ResponseMessageConstant.OK);
@@ -97,7 +89,7 @@ public class BuyController {
         return modelMap;
     }
 
-    @RequestMapping(value = "saveBuy", method = RequestMethod.POST)
+    @RequestMapping(value = "updateBuy", method = RequestMethod.POST)
     public Object save(@RequestBody BuyEO buyEO) {
         ModelMap modelMap = new ModelMap();
         if (buyEO == null) {
@@ -112,15 +104,18 @@ public class BuyController {
             return modelMap;
         }
 
-        buyDao.update(buyEO);
+        buyService.update(buyEO);
+
         modelMap.addAttribute("code", ResponseCodeConstant.OK);
         modelMap.addAttribute("message", ResponseMessageConstant.OK);
         logger.info("save :保存成功：" + buyEO);
         return modelMap;
     }
 //
+
     /**
      * delete
+     *
      * @param id
      * @return
      */
@@ -134,7 +129,7 @@ public class BuyController {
             return modelMap;
         }
 
-        buyDao.delete(id);
+        buyService.delete(id);
 
         modelMap.addAttribute("code", ResponseCodeConstant.OK);
         modelMap.addAttribute("message", ResponseMessageConstant.OK);
@@ -158,34 +153,24 @@ public class BuyController {
         modelMap.addAttribute("code", ResponseCodeConstant.OK);
         modelMap.addAttribute("message", ResponseMessageConstant.OK);
 
+        BuyDetailResponse buyDetailResponse = buyService.findBuyDetailById(id);
 
-        BuyDetailResponse buyDetailResponse = new BuyDetailResponse();
-        buyDetailResponse.setBuyDetail( buyDao.findBuyDetailById(id));
-        buyDetailResponse.setContacts(contactDao.findContactByTypeAndGoodsId(CONTACT_TYPE_SHOP,id));
-
-        modelMap.addAttribute("data",buyDetailResponse);
+        modelMap.addAttribute("data", buyDetailResponse);
 
         return modelMap;
     }
 
     /**
-     * 所有可用的二手商品
+     * 分页查询
      *
+     * @param pageRequest
      * @return
      */
     @RequestMapping(value = "allBuys")
-    public Object showAllBuy() {
+    public Object showAllBuy(@RequestBody BasePageRequest pageRequest) {
         ModelMap modelMap = new ModelMap();
-        modelMap.addAttribute("code", ResponseCodeConstant.OK);
-        modelMap.addAttribute("message", ResponseMessageConstant.OK);
-        modelMap.addAttribute("data", buyDao.findIndexBuy());
-        return modelMap;
-    }
 
-    @RequestMapping(value = "searchBuy")
-    public Object searchBuy(String goodsName) {
-        ModelMap modelMap = new ModelMap();
-        if (goodsName == null) {
+        if (pageRequest == null || pageRequest.getPageNum() == null || pageRequest.getPageSize() == null) {
             modelMap.addAttribute("code", ResponseCodeConstant.PARAMETER_LOST_ERROR);
             modelMap.addAttribute("message", ResponseMessageConstant.PARAMETER_LOST_ERROR);
             return modelMap;
@@ -193,28 +178,53 @@ public class BuyController {
 
         modelMap.addAttribute("code", ResponseCodeConstant.OK);
         modelMap.addAttribute("message", ResponseMessageConstant.OK);
-        modelMap.addAttribute("data", buyDao.findIndexBuyName(goodsName));
+        modelMap.addAttribute("data", buyService.findIndexBuy(pageRequest.getPageNum(),
+                pageRequest.getPageSize()));
+        return modelMap;
+    }
+
+    /**
+     * 分页模糊搜索
+     * @param pageRequest
+     * @return
+     */
+    @RequestMapping(value = "searchBuy")
+    public Object searchBuy(@RequestBody NamePageRequest pageRequest) {
+        ModelMap modelMap = new ModelMap();
+        if (pageRequest == null || pageRequest.getName() == null || pageRequest.getPageSize() == null
+                || pageRequest.getPageNum() == null) {
+            modelMap.addAttribute("code", ResponseCodeConstant.PARAMETER_LOST_ERROR);
+            modelMap.addAttribute("message", ResponseMessageConstant.PARAMETER_LOST_ERROR);
+            return modelMap;
+        }
+
+        modelMap.addAttribute("code", ResponseCodeConstant.OK);
+        modelMap.addAttribute("message", ResponseMessageConstant.OK);
+        modelMap.addAttribute("data", buyService.findIndexBuyName(pageRequest.getName(),
+                pageRequest.getPageNum(), pageRequest.getPageSize()));
 
         return modelMap;
     }
 
     /**
-     * 查询某个用户的可用二手信息
-     *
+     * 分页查询用户的二手信息
+     * @param pageRequest
      * @return
      */
     @RequestMapping(value = "showUserBuys")
-    private Object showUserBuys(Integer userId) {
+    private Object showUserBuys(@RequestBody UserIdPageRequest pageRequest) {
         ModelMap modelMap = new ModelMap();
-        if (userId == null) {
+        if (pageRequest == null || pageRequest.getUserId() == null || pageRequest.getPageNum() == null
+                || pageRequest.getPageNum() == null) {
             modelMap.addAttribute("code", ResponseCodeConstant.PARAMETER_LOST_ERROR);
             modelMap.addAttribute("message", ResponseMessageConstant.PARAMETER_LOST_ERROR);
+            logger.info("showUserBuys :参数不正确：" + pageRequest);
             return modelMap;
         }
         modelMap.addAttribute("code", ResponseCodeConstant.OK);
         modelMap.addAttribute("message", ResponseMessageConstant.OK);
-        modelMap.addAttribute("data", buyDao.findIndexBuyUserId(userId));
-
+        modelMap.addAttribute("data", buyService.findIndexBuyUserId(pageRequest.getUserId(),
+                pageRequest.getPageNum(), pageRequest.getPageSize()));
         return modelMap;
     }
 

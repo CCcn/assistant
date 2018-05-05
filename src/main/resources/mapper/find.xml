@@ -195,7 +195,7 @@
         from
         <include refid="BASE_TABLE" />
         where
-        id = #{id,jdbcType=INTEGER} and status = 1
+        id = #{id,jdbcType=INTEGER} and status = 1 ORDER BY id DESC
     </select>
 
     <select id="findIndexFind" resultMap="FindDTO">
@@ -203,16 +203,16 @@
         id,img,title,place,date,finished,description
       from
       <include refid="BASE_TABLE"/>
-      where status = 1
+      where status = 1 ORDER BY id DESC
     </select>
 
-    <select id="findIndexBuyName" resultMap="FindDTO">
+    <select id="findIndexFindByName" resultMap="FindDTO">
       select
         id,img,title,place,date,finished,description
       from
       <include refid="BASE_TABLE"/>
       where
-        name like "%"#{goodsName,jdbcType=VARCHAR}"%" and status = 1
+        name like "%"#{goodsName,jdbcType=VARCHAR}"%" and status = 1 ORDER BY id DESC
     </select>
 
     <select id="findFindByUserId" parameterType="java.lang.Integer" resultMap="FindDTO">
@@ -220,7 +220,7 @@
         id,img,title,place,date,finished,description
         from
         <include refid="BASE_TABLE"/>
-        where user_id = #{userId ,jdbcType=INTEGER} and status = 1
+        where user_id = #{userId ,jdbcType=INTEGER} and status = 1 ORDER BY id DESC
     </select>
 
     <select id="findFindByLimit" resultMap="FindDTO">

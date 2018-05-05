@@ -2,12 +2,13 @@ package com.cdtc.student.assistant.controller;
 
 import com.cdtc.student.assistant.common.ResponseCodeConstant;
 import com.cdtc.student.assistant.common.ResponseMessageConstant;
-import com.cdtc.student.assistant.dao.ContactDao;
-import com.cdtc.student.assistant.dao.FindDao;
-import com.cdtc.student.assistant.model.ContactEO;
 import com.cdtc.student.assistant.model.FindEO;
+import com.cdtc.student.assistant.request.BasePageRequest;
 import com.cdtc.student.assistant.request.CreateFindRequest;
+import com.cdtc.student.assistant.request.NamePageRequest;
+import com.cdtc.student.assistant.request.UserIdPageRequest;
 import com.cdtc.student.assistant.response.FindDetailResponse;
+import com.cdtc.student.assistant.service.FindService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,14 +31,10 @@ public class FindController {
     Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    private FindDao findDao;
+    private FindService findService;
 
-    @Autowired
-    private ContactDao contactDao;
 
-    private final Integer CONTACT_TYPE_SHOP = 0;
-
-    @RequestMapping(value = "createFind" , method = RequestMethod.POST)
+    @RequestMapping(value = "createFind", method = RequestMethod.POST)
     public Object create(@RequestBody CreateFindRequest find) {
 
         ModelMap modelMap = new ModelMap();
@@ -59,21 +56,11 @@ public class FindController {
             find.getFind().setImg("/banner/1.jpg");
         }
 
-        findDao.insert(find.getFind());
-        Integer findId = find.getFind().getId();
-
-        for (ContactEO contact : find.getContacts()) {
-            contact.setUserId(find.getFind().getUserId());
-            contact.setGoodsId(findId);
-            contact.setType(CONTACT_TYPE_SHOP);
-        }
-
-        contactDao.insertList(find.getContacts());
-
+        findService.insert(find);
         modelMap.addAttribute("code", ResponseCodeConstant.OK);
         modelMap.addAttribute("message", ResponseMessageConstant.OK);
-
         logger.info("create: 插入成功：" + find);
+
         return modelMap;
     }
 
@@ -88,37 +75,33 @@ public class FindController {
             modelMap.addAttribute("message", ResponseMessageConstant.PARAMETER_LOST_ERROR);
             return modelMap;
         }
+
         modelMap.addAttribute("code", ResponseCodeConstant.OK);
         modelMap.addAttribute("message", ResponseMessageConstant.OK);
 
-
-        FindDetailResponse findDetailResponse = new FindDetailResponse();
-
-        findDetailResponse.setFindDetail(findDao.findFindDetailById(id));
-        findDetailResponse.setContacts(contactDao.findContactByTypeAndGoodsId(CONTACT_TYPE_SHOP,id));
-
+        FindDetailResponse findDetailResponse = findService.findFindDetailById(id);
         modelMap.addAttribute("data", findDetailResponse);
 
         return modelMap;
     }
 
-    @RequestMapping(value = "saveFind" , method = RequestMethod.POST)
+    @RequestMapping(value = "updateFind", method = RequestMethod.POST)
     public Object save(@RequestBody FindEO find) {
         ModelMap modelMap = new ModelMap();
         if (find == null) {
             modelMap.addAttribute("code", ResponseCodeConstant.PARAMETER_LOST_ERROR);
             modelMap.addAttribute("message", ResponseMessageConstant.PARAMETER_LOST_ERROR);
-            logger.info("save: null");
+            logger.info("update: null");
             return modelMap;
         }
         if (find.getUserId() == null || find.getDescription() == null || find.getPlace() == null) {
             modelMap.addAttribute("code", ResponseCodeConstant.PARAMETER_LOST_ERROR);
             modelMap.addAttribute("message", ResponseMessageConstant.PARAMETER_LOST_ERROR);
-            logger.info("save :参数不正确：" + find);
+            logger.info("update :参数不正确：" + find);
             return modelMap;
         }
 
-        findDao.update(find);
+        findService.update(find);
         modelMap.addAttribute("code", ResponseCodeConstant.OK);
         modelMap.addAttribute("message", ResponseMessageConstant.OK);
 
@@ -126,35 +109,47 @@ public class FindController {
         return modelMap;
     }
 
+    /**
+     * 分页查询
+     *
+     * @param pageRequest 分页请求
+     * @return
+     */
     @RequestMapping(value = "allFinds")
-    public Object showAllFind() {
+    public Object showAllFind(@RequestBody BasePageRequest pageRequest) {
         ModelMap modelMap = new ModelMap();
-
+        if (pageRequest == null || pageRequest.getPageNum() == null || pageRequest.getPageSize() == null) {
+            modelMap.addAttribute("code", ResponseCodeConstant.PARAMETER_LOST_ERROR);
+            modelMap.addAttribute("message", ResponseMessageConstant.PARAMETER_LOST_ERROR);
+            return modelMap;
+        }
         modelMap.addAttribute("code", ResponseCodeConstant.OK);
         modelMap.addAttribute("message", ResponseMessageConstant.OK);
-        modelMap.addAttribute("data", findDao.findIndexFind());
-
+        modelMap.addAttribute("data", findService.findIndexFind(pageRequest.getPageNum(), pageRequest.getPageSize()));
         return modelMap;
     }
 
     /**
-     * 查询某个用户的失物招领
-     * @param userId
+     * 分页 查询某个用户的失物招领
+     *
+     * @param pageRequest
      * @return
      */
     @RequestMapping(value = "showUserFinds")
-    public Object showUserFind(Integer userId){
+    public Object showUserFind(@RequestBody UserIdPageRequest pageRequest) {
         ModelMap modelMap = new ModelMap();
-        if (userId == null) {
+        if (pageRequest == null || pageRequest.getUserId() == null || pageRequest.getPageNum() == null
+                || pageRequest.getPageNum() == null) {
             modelMap.addAttribute("code", ResponseCodeConstant.PARAMETER_LOST_ERROR);
             modelMap.addAttribute("message", ResponseMessageConstant.PARAMETER_LOST_ERROR);
-            logger.info("showUserFinds :参数不正确：" + userId);
+            logger.info("showUserFinds :参数不正确：" + pageRequest);
             return modelMap;
         }
 
         modelMap.addAttribute("code", ResponseCodeConstant.OK);
         modelMap.addAttribute("message", ResponseMessageConstant.OK);
-        modelMap.addAttribute("data", findDao.findFindByUserId(userId));
+        modelMap.addAttribute("data", findService.findFindByUserId(pageRequest.getUserId(),
+                pageRequest.getPageNum(), pageRequest.getPageSize()));
 
         return modelMap;
     }
@@ -169,7 +164,7 @@ public class FindController {
             return modelMap;
         }
 
-        findDao.delete(id);
+        findService.delete(id);
 
         modelMap.addAttribute("code", ResponseCodeConstant.OK);
         modelMap.addAttribute("message", ResponseMessageConstant.OK);
@@ -178,23 +173,24 @@ public class FindController {
     }
 
     /**
-     *
-     * @param name
+     * 分页搜索
+     * @param pageRequest
      * @return
      */
     @RequestMapping(value = "searchFind")
-    public Object search(String name) {
+    public Object search(@RequestBody NamePageRequest pageRequest) {
         ModelMap modelMap = new ModelMap();
-        if (name == null) {
+        if (pageRequest == null || pageRequest.getName() == null || pageRequest.getPageSize() == null
+                || pageRequest.getPageNum() == null) {
             modelMap.addAttribute("code", ResponseCodeConstant.PARAMETER_LOST_ERROR);
             modelMap.addAttribute("message", ResponseMessageConstant.PARAMETER_LOST_ERROR);
-            logger.info("search :参数不正确：" + name);
             return modelMap;
         }
 
         modelMap.addAttribute("code", ResponseCodeConstant.OK);
         modelMap.addAttribute("message", ResponseMessageConstant.OK);
-        modelMap.addAttribute("data",findDao.findIndexFindByName(name));
+        modelMap.addAttribute("data", findService.findIndexFindByName(pageRequest.getName(),
+                pageRequest.getPageNum(), pageRequest.getPageSize()));
         return modelMap;
     }
 }

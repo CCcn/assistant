@@ -16,9 +16,8 @@ public interface LoveDao {
     /**
      * 插入一条表白墙
      * @param loveEO 记录
-     * @return 主键
      */
-    Integer insert(LoveEO loveEO);
+    void insert(LoveEO loveEO);
 
     /**
      * 更新一个实体
