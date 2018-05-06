@@ -1,6 +1,4 @@
-classpath: /static
-classpath: /resources
-classpath: /META-INF/resources
+
 spring:
     http:
         encoding:
@@ -46,6 +44,15 @@ spring:
         poolPreparedStatements: true
         maxPoolPreparedStatementPerConnectionSize: 20
         maxOpenPreparedStatements: 20
+    servlet:
+      multipart:
+        max-request-size: 102400000
+        max-file-size: 102400000
+    mvc:
+      static-path-pattern: /**
+    resources:
+      static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/,file:${upload.path}
+
 
 mybatis:
     mapper-locations: classpath:mapper/*.xml
@@ -65,7 +72,9 @@ pagehelper:
 #==================== logging Setting =====================#
 logging:
   level:
-    org.springframework: info
+    org.springframework: debug
     file: C:/system-service.log
 server:
   port: 8087
+upload:
+  path: /users/pcc/desktop

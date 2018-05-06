@@ -21,6 +21,16 @@ public class CreateBuyRequest {
         return buy;
     }
 
+    public List<String> imgs;
+
+    public List<String> getImgs() {
+        return imgs;
+    }
+
+    public void setImgs(List<String> imgs) {
+        this.imgs = imgs;
+    }
+
     public void setBuy(BuyEO buy) {
         this.buy = buy;
     }
@@ -38,6 +48,7 @@ public class CreateBuyRequest {
         return "CreateBuyRequest{" +
                 "buy=" + buy +
                 ", contacts=" + contacts +
+                ", imgs=" + imgs +
                 '}';
     }
 }

@@ -2,15 +2,22 @@ package com.cdtc.student.assistant.service;
 
 import com.cdtc.student.assistant.dao.BuyDao;
 import com.cdtc.student.assistant.dao.ContactDao;
+import com.cdtc.student.assistant.dao.ImgDao;
 import com.cdtc.student.assistant.dto.BuyDTO;
+import com.cdtc.student.assistant.dto.ImgDTO;
 import com.cdtc.student.assistant.model.BuyEO;
 import com.cdtc.student.assistant.model.ContactEO;
+import com.cdtc.student.assistant.model.ImgEO;
 import com.cdtc.student.assistant.request.CreateBuyRequest;
 import com.cdtc.student.assistant.response.BuyDetailResponse;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.beans.Transient;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Create by pcc on 2018/5/6.
@@ -23,6 +30,9 @@ public class BuyService {
 
     @Autowired
     private ContactDao contactDao;
+
+    @Autowired
+    private ImgDao imgDao;
 
     /**
      * 没有图片
@@ -41,19 +51,34 @@ public class BuyService {
      *
      * @param buy
      */
+
     public void insert(CreateBuyRequest buy) {
+
         buyDao.insert(buy.getBuy());
 
-        Integer findId = buy.getBuy().getId();
+        Integer buyId = buy.getBuy().getId();
 
         for (ContactEO contact : buy.getContacts()) {
             contact.setUserId(buy.getBuy().getUserId());
-            contact.setGoodsId(findId);
+            contact.setGoodsId(buyId);
             contact.setType(CONTACT_TYPE_SHOP);
         }
 
         contactDao.insertList(buy.getContacts());
 
+        /**
+         * 有图片
+         */
+        if (buy.getBuy().getHasImg() == HAS_IMG && buy.getImgs() != null && !buy.getImgs().isEmpty()) {
+
+            for (int i = 0 ; i < buy.getImgs().size(); i++) {
+                ImgEO imgEO = new ImgEO();
+                imgEO.setGoodsId(buyId);
+                imgEO.setType(CONTACT_TYPE_SHOP);
+                imgEO.setUrl(buy.getImgs().get(i));
+                imgDao.insert(imgEO);
+            }
+        }
     }
 
     /**
@@ -123,6 +148,18 @@ public class BuyService {
         buyDetailResponse.setBuyDetail(buyDao.findBuyDetailById(id));
         buyDetailResponse.setContacts(contactDao.findContactByTypeAndGoodsId(CONTACT_TYPE_SHOP, id));
 
+        /**
+         * 有图片
+         */
+        if (buyDetailResponse.getBuyDetail().getHasImg() != null && buyDetailResponse.getBuyDetail().getHasImg() == HAS_IMG) {
+            List<ImgDTO> imgs = imgDao.findImgByTypeAndGoodsId(CONTACT_TYPE_SHOP,id);
+            List<String > stringImg = new ArrayList<>();
+            for (int i = 0; i <imgs.size(); i++) {
+                stringImg.add(imgs.get(i).getUrl());
+            }
+            buyDetailResponse.setImgs(stringImg);
+            buyDetailResponse.setImgs(stringImg);
+        }
         return buyDetailResponse;
     }
 

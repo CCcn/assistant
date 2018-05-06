@@ -20,5 +20,10 @@ public class ResponseCodeConstant {
      */
     public static final int USERNAME_OR_PASSWORD_ERROR = 401;
 
+    /**
+     * 文件上传失败
+     */
+    public static final int FILL_UPLOAD_FAILED = 402;
+
 
 }

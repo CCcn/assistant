@@ -82,6 +82,18 @@ public class IndexController {
         return modelMap;
     }
 
+
+    @RequestMapping("index/page")
+    public Object indexPage(){
+        ModelMap modelMap = new ModelMap();
+        modelMap.addAttribute("message",ResponseMessageConstant.OK);
+        modelMap.addAttribute("code",ResponseCodeConstant.OK);
+        modelMap.addAttribute("banner",bannerDao.selectAll());
+        modelMap.addAttribute("loves",loveDao.findLoveByLimit(LIMIT_SIZE));
+        modelMap.addAttribute("finds",findDao.findFindByLimit(LIMIT_SIZE));
+        modelMap.addAttribute("buys",buyDao.findBuyByLimit(LIMIT_SIZE));
+        return modelMap;
+    }
     /**
      *
      * @return

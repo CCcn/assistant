@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.cdtc.student.assistant.dao.ImgDao" >
     <sql id="BASE_TABLE">
-      img
+      imgs
     </sql>
 
     <resultMap id="ImgDTO" type="com.cdtc.student.assistant.dto.ImgDTO">
@@ -27,7 +27,7 @@
             <if test="url != null" >
                 #{url,jdbcType=VARCHAR},
             </if>
-            <if test="goodsID != null" >
+            <if test="goodsId != null" >
                 #{goodsId,jdbcType=INTEGER},
             </if>
             <if test="type != null" >

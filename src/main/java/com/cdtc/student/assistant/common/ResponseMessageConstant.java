@@ -18,4 +18,9 @@ public class ResponseMessageConstant {
      * 用户名或密码不正确
      */
     public static final String USERNAME_OR_PASSWORD_ERROR = "用户名或密码不正确";
+
+    /**
+     * 文件上传失败
+     */
+    public static final String FILL_UPLOAD_FAILED = "文件上传失败";
 }

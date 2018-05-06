@@ -38,6 +38,26 @@ public class FindDetailDTO {
      */
     private Integer finished;
 
+    private Integer hasImg;
+
+    private String img;
+
+    public Integer getHasImg() {
+        return hasImg;
+    }
+
+    public void setHasImg(Integer hasImg) {
+        this.hasImg = hasImg;
+    }
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
+
     public String getName() {
         return name;
     }

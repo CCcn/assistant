@@ -6,11 +6,11 @@
     </sql>
 
     <sql id="BASE_COLUMN">
-    id,url,tip,img,status
+    id,urls,tip,img,status
   </sql>
     <resultMap id="Banner" type="com.cdtc.student.assistant.model.BannerEO">
         <result property="id" column="ID"/>
-        <result property="url" column="url"/>
+        <result property="urls" column="urls"/>
         <result property="tip" column="tip"/>
         <result property="img" column="img"/>
         <result property="status" column="status"/>
@@ -19,8 +19,8 @@
         insert into
         <include refid="BASE_TABLE"/>
         <trim prefix="(" suffix=")" suffixOverrides="," >
-            <if test="url != null" >
-                url,
+            <if test="urls != null" >
+                urls,
             </if>
             <if test="tip != null" >
                 tip,
@@ -33,8 +33,8 @@
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides="," >
-            <if test="url != null" >
-                #{url,jdbcType=VARCHAR},
+            <if test="urls != null" >
+                #{urls,jdbcType=VARCHAR},
             </if>
             <if test="tip != null" >
                 #{tip,jdbcType=VARCHAR},

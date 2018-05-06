@@ -53,7 +53,7 @@ public class FindController {
 
         //没有图片，给默认图片
         if (find.getFind().getImg() == null || find.getFind().getImg().length() == 0) {
-            find.getFind().setImg("/banner/1.jpg");
+            find.getFind().setImg("/default/find.jpg");
         }
 
         findService.insert(find);

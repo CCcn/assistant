@@ -14,6 +14,16 @@ public class CreateFindRequest {
 
     private List<ContactEO> contacts;
 
+    private List<String> imgs;
+
+    public List<String> getImgs() {
+        return imgs;
+    }
+
+    public void setImgs(List<String> imgs) {
+        this.imgs = imgs;
+    }
+
     public FindEO getFind() {
         return find;
     }
@@ -28,5 +38,14 @@ public class CreateFindRequest {
 
     public void setContacts(List<ContactEO> contacts) {
         this.contacts = contacts;
+    }
+
+    @Override
+    public String toString() {
+        return "CreateFindRequest{" +
+                "find=" + find +
+                ", contacts=" + contacts +
+                ", imgs=" + imgs +
+                '}';
     }
 }

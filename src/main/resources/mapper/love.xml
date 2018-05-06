@@ -132,6 +132,6 @@
         id,title,content
         from
         <include refid="BASE_TABLE"/>
-        order by id desc limit #{size}
+        where status = 1 order by id desc limit #{size}
     </select>
 </mapper>

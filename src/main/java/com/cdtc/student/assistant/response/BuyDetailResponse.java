@@ -2,6 +2,7 @@ package com.cdtc.student.assistant.response;
 
 import com.cdtc.student.assistant.dto.BuyDetailDTO;
 import com.cdtc.student.assistant.dto.ContactDTO;
+import com.cdtc.student.assistant.dto.ImgDTO;
 import com.cdtc.student.assistant.model.ContactEO;
 
 import java.util.List;
@@ -14,6 +15,16 @@ public class BuyDetailResponse {
     private BuyDetailDTO buyDetail;
 
     private List<ContactDTO> contacts;
+
+    private List<String> imgs;
+
+    public List<String > getImgs() {
+        return imgs;
+    }
+
+    public void setImgs(List<String> imgs) {
+        this.imgs = imgs;
+    }
 
     public List<ContactDTO> getContacts() {
         return contacts;
@@ -36,6 +47,7 @@ public class BuyDetailResponse {
         return "BuyDetailResponse{" +
                 "buyDetail=" + buyDetail +
                 ", contacts=" + contacts +
+                ", imgs=" + imgs +
                 '}';
     }
 }

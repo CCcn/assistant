@@ -77,7 +77,7 @@ public class BuyController {
 
         //没有图片，给默认图片
         if (buy.getBuy().getImg() == null || buy.getBuy().getImg().length() == 0) {
-            buy.getBuy().setImg("/banner/1.jpg");
+            buy.getBuy().setImg("/default/buy.jpg");
         }
 
         buyService.insert(buy);

@@ -14,6 +14,16 @@ public class FindDetailResponse {
 
     private List<ContactDTO> contacts;
 
+    private List<String> imgs;
+
+    public List<String> getImgs() {
+        return imgs;
+    }
+
+    public void setImgs(List<String> imgs) {
+        this.imgs = imgs;
+    }
+
     public FindDetailDTO getFindDetail() {
         return findDetail;
     }
@@ -35,6 +45,7 @@ public class FindDetailResponse {
         return "FindDetailResponse{" +
                 "findDetail=" + findDetail +
                 ", contacts=" + contacts +
+                ", imgs=" + imgs +
                 '}';
     }
 }

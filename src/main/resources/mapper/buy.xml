@@ -13,6 +13,7 @@
         <result property="img" column="img"/>
         <result property="title" column="title"/>
         <result property="price" column="price"/>
+
     </resultMap>
 
     <resultMap id="BuyDetailDTO" type="com.cdtc.student.assistant.dto.BuyDetailDTO">
@@ -20,6 +21,8 @@
         <result property="name" column="name"/>
         <result property="description" column="description"/>
         <result property="owner" column="owner"/>
+        <result property="img" column="img"/>
+        <result property="hasImg" column="has_img"/>
     </resultMap>
 
 
@@ -173,7 +176,7 @@
 
     <select id="findBuyDetailById" parameterType="java.lang.Integer" resultMap="BuyDetailDTO">
         select
-          name,price,description,owner,finished
+          name,price,description,owner,finished,has_img,img
         from
         <include refid="BASE_TABLE" />
         where
@@ -210,6 +213,6 @@
           id,img,title,price,finished
          from
         <include refid="BASE_TABLE"/>
-         order by id desc limit #{size} ;
+        where status = 1 order by id desc limit #{size}
     </select>
 </mapper>

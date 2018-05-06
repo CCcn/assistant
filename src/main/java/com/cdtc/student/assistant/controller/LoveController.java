@@ -2,7 +2,6 @@ package com.cdtc.student.assistant.controller;
 
 import com.cdtc.student.assistant.common.ResponseCodeConstant;
 import com.cdtc.student.assistant.common.ResponseMessageConstant;
-import com.cdtc.student.assistant.dao.LoveDao;
 import com.cdtc.student.assistant.request.BasePageRequest;
 import com.cdtc.student.assistant.request.CreateLoveRequest;
 import com.cdtc.student.assistant.request.UserIdPageRequest;
@@ -30,9 +29,6 @@ public class LoveController {
 
     @Autowired
     private LoveService loveService;
-
-
-
 
     @RequestMapping(value = "createLove" , method = RequestMethod.POST)
     public Object create(@RequestBody CreateLoveRequest love) {
@@ -69,7 +65,6 @@ public class LoveController {
         }
 
         loveService.delete(id);
-
 
         modelMap.addAttribute("code", ResponseCodeConstant.OK);
         modelMap.addAttribute("message", ResponseMessageConstant.OK);

@@ -25,6 +25,9 @@
         <result property="lostPlace" column="place"/>
         <result property="description" column="description"/>
         <result property="finished" column="finished" />
+        <result property="img" column="img" />
+        <result property="hasImg" column="has_img" />
+
     </resultMap>
 
 
@@ -191,7 +194,7 @@
 
     <select id="findFindDetailById" parameterType="java.lang.Integer" resultMap="FindDetailDTO">
         select
-          name,contact_person,description,date,place,finished
+          name,contact_person,description,date,place,finished,img,has_img
         from
         <include refid="BASE_TABLE" />
         where
@@ -228,7 +231,7 @@
         id,img,title,place,date,finished,description
         from
         <include refid="BASE_TABLE"/>
-        order by id desc limit #{size}
+        where status = 1 order by id desc limit #{size}
     </select>
 
 
