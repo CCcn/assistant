@@ -73,8 +73,8 @@ pagehelper:
 logging:
   level:
     org.springframework: debug
-    file: C:/system-service.log
+    file: /user/service/log
 server:
-  port: 8087
+  port: 80
 upload:
-  path: /users/pcc/desktop
+  path: /user/service/img

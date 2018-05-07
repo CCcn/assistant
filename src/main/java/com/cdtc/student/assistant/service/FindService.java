@@ -102,11 +102,15 @@ public class FindService {
         findDao.insert(find.getFind());
         Integer findId = find.getFind().getId();
 
-        for (ContactEO contact : find.getContacts()) {
-            contact.setUserId(find.getFind().getUserId());
-            contact.setGoodsId(findId);
-            contact.setType(CONTACT_TYPE_FIND);
+        if (find.getContacts() != null && !find.getContacts().isEmpty()) {
+            for (ContactEO contact : find.getContacts()) {
+                contact.setUserId(find.getFind().getUserId());
+                contact.setGoodsId(findId);
+                contact.setType(CONTACT_TYPE_FIND);
+            }
+            contactDao.insertList(find.getContacts());
         }
+
 
         /**
          * 有图片
