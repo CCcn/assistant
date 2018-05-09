@@ -193,4 +193,20 @@ public class FindController {
                 pageRequest.getPageNum(), pageRequest.getPageSize()));
         return modelMap;
     }
+
+
+    @RequestMapping(value = "finds")
+    public Object showAllFindPost(BasePageRequest pageRequest) {
+        ModelMap modelMap = new ModelMap();
+        if (pageRequest == null || pageRequest.getPageNum() == null || pageRequest.getPageSize() == null) {
+            modelMap.addAttribute("code", ResponseCodeConstant.PARAMETER_LOST_ERROR);
+            modelMap.addAttribute("message", ResponseMessageConstant.PARAMETER_LOST_ERROR);
+            return modelMap;
+        }
+        modelMap.addAttribute("code", ResponseCodeConstant.OK);
+        modelMap.addAttribute("message", ResponseMessageConstant.OK);
+        modelMap.addAttribute("data", findService.findIndexFind(pageRequest.getPageNum(), pageRequest.getPageSize()));
+        return modelMap;
+    }
+
 }

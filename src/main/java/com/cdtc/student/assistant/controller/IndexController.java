@@ -7,6 +7,8 @@ import com.cdtc.student.assistant.dao.BuyDao;
 import com.cdtc.student.assistant.dao.FindDao;
 import com.cdtc.student.assistant.dao.LoveDao;
 import com.cdtc.student.assistant.dto.BannerDTO;
+import com.cdtc.student.assistant.dto.BuyDTO;
+import com.cdtc.student.assistant.dto.BuyDetailDTO;
 import com.cdtc.student.assistant.model.BannerEO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -91,9 +93,20 @@ public class IndexController {
         modelMap.addAttribute("banner",bannerDao.selectAll());
         modelMap.addAttribute("loves",loveDao.findLoveByLimit(LIMIT_SIZE));
         modelMap.addAttribute("finds",findDao.findFindByLimit(LIMIT_SIZE));
-        modelMap.addAttribute("buys",buyDao.findBuyByLimit(LIMIT_SIZE));
+
+
+        List<BuyDTO> buyDTOS = buyDao.findBuyByLimit(LIMIT_SIZE);
+
+        List<BuyDetailDTO> buyDetailDTOS = new ArrayList<>();
+
+        for (BuyDTO buyDTO: buyDTOS) {
+            buyDetailDTOS.add(buyDao.findBuyDetailById(buyDTO.getId()));
+        }
+        modelMap.addAttribute("buys",buyDetailDTOS);
         return modelMap;
     }
+
+
     /**
      *
      * @return

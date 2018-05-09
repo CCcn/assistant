@@ -228,4 +228,28 @@ public class BuyController {
         return modelMap;
     }
 
+    /**
+     * 分页查询
+     *
+     * @param pageRequest
+     * @return
+     */
+    @RequestMapping(value = "buys")
+    public Object showAllBuyPost(BasePageRequest pageRequest) {
+        ModelMap modelMap = new ModelMap();
+
+        if (pageRequest == null || pageRequest.getPageNum() == null || pageRequest.getPageSize() == null) {
+            modelMap.addAttribute("code", ResponseCodeConstant.PARAMETER_LOST_ERROR);
+            modelMap.addAttribute("message", ResponseMessageConstant.PARAMETER_LOST_ERROR);
+            return modelMap;
+        }
+
+        modelMap.addAttribute("code", ResponseCodeConstant.OK);
+        modelMap.addAttribute("message", ResponseMessageConstant.OK);
+        modelMap.addAttribute("data", buyService.findIndexBuy(pageRequest.getPageNum(),
+                pageRequest.getPageSize()));
+        return modelMap;
+    }
+
+
 }
