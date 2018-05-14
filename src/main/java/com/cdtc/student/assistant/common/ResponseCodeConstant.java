@@ -25,5 +25,10 @@ public class ResponseCodeConstant {
      */
     public static final int FILL_UPLOAD_FAILED = 402;
 
+    /**
+     * 密码错误，用户修改密码
+     */
+    public static final int PASSWORD_ERROR = 403;
+
 
 }

@@ -99,7 +99,7 @@
         update
         <include refid="BASE_TABLE"/>
         set
-         password = #{password}
+         encode_password = #{password}
         where  student_number = #{studentNumber,jdbcType=VARCHAR}
     </update>
 

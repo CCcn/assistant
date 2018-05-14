@@ -4,6 +4,8 @@ import com.cdtc.student.assistant.common.ResponseCodeConstant;
 import com.cdtc.student.assistant.common.ResponseMessageConstant;
 import com.cdtc.student.assistant.dao.FeedbackDao;
 import com.cdtc.student.assistant.model.FeedbackEO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.stereotype.Controller;
@@ -23,6 +25,8 @@ public class FeedbackController {
 
     @Autowired
     private FeedbackDao feedbackDao;
+
+    Logger logger = LoggerFactory.getLogger(getClass());
 
     /**
      * 已处理
@@ -47,6 +51,9 @@ public class FeedbackController {
         feedbackEO.setCreateDate(new Date());
 
         feedbackDao.insert(feedbackEO);
+
+        logger.info("收到反馈信息：" + feedbackEO);
+
         modelMap.addAttribute("code",ResponseCodeConstant.OK);
         modelMap.addAttribute("message", ResponseMessageConstant.OK);
         return modelMap;

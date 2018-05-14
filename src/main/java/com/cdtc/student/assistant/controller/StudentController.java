@@ -4,6 +4,8 @@ import com.cdtc.student.assistant.common.ResponseCodeConstant;
 import com.cdtc.student.assistant.common.ResponseMessageConstant;
 import com.cdtc.student.assistant.dao.StudentDao;
 import com.cdtc.student.assistant.dto.StudentDTO;
+import com.cdtc.student.assistant.model.StudentEO;
+import com.cdtc.student.assistant.request.UpdatePasswordRequest;
 import com.cdtc.student.assistant.utils.DateUtils;
 import com.cdtc.student.assistant.utils.Md5Utils;
 import org.slf4j.Logger;
@@ -11,7 +13,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -25,10 +30,6 @@ public class StudentController {
 
     Logger logger = LoggerFactory.getLogger(getClass());
 
-    /**
-     * 如果是使用加密的密码进行校验，那么长度是32未（Md5 32位小写）
-     */
-    private static final int ENCODE_PASSWORD_LENGTH = 32;
 
     @Autowired
     private StudentDao studentDao;
@@ -50,17 +51,8 @@ public class StudentController {
 
         logger.info("userName" + studentNumber +"  password" + password );
 
-        String encodePassword = Md5Utils.getMD5String(password);
-
-        StudentDTO student = null;
-
-        logger.info(password.length() + "");
-
-        if (password.length() == ENCODE_PASSWORD_LENGTH) {
-            student =  studentDao.findByStudentNumAndPassword(studentNumber,password);
-        } else {
-            student = studentDao.findByStudentNumAndPassword(studentNumber,encodePassword);
-        }
+        //客户端传送的加密后的密码
+        StudentDTO student = studentDao.findByStudentNumAndPassword(studentNumber,password);
 
         if (student == null) {
             modelMap.addAttribute("code", ResponseCodeConstant.USERNAME_OR_PASSWORD_ERROR);
@@ -73,13 +65,35 @@ public class StudentController {
         modelMap.addAttribute("message", ResponseMessageConstant.OK);
         modelMap.addAttribute("data",student);
         //应该写登陆日志
-        logger.info("登陆成功: 插入成功：" + student + DateUtils.getFormatNow());
+        logger.info("登陆成功: ：" + student + DateUtils.getFormatNow());
         return modelMap;
     }
 
-    @RequestMapping("updatePassword")
-    public Object updatePassword(String userName, String origin, String newPassword) {
 
-        return null;
+    /**
+     * 修改密码
+     * @param request id、原密码、新密码
+     * @return Object
+     */
+    @RequestMapping(value = "updatePassword", method = RequestMethod.POST)
+    public Object updatePassword(@Validated @RequestBody UpdatePasswordRequest request) {
+        logger.info("用户修改密码 ：" + request);
+
+        ModelMap modelMap = new ModelMap();
+        StudentDTO student = studentDao.findByStudentNumAndPassword(request.getStudentNumber(), request.getOldPassword());
+
+        if (student == null) {
+            modelMap.addAttribute("code", ResponseCodeConstant.PASSWORD_ERROR);
+            modelMap.addAttribute("message", ResponseMessageConstant.PASSWORD_ERROR);
+            logger.info("修改密码失败：密码错误: password " + request.getOldPassword());
+            return modelMap;
+        }
+
+        studentDao.updatePassword(request.getStudentNumber(), request.getNewPassword());
+
+        modelMap.addAttribute("code", ResponseCodeConstant.OK);
+        modelMap.addAttribute("message", "修改密码成功");
+        logger.info("修改密码成功：studentNumber " + request.getStudentNumber() +" 密码：" + request.getNewPassword());
+        return modelMap;
     }
 }
