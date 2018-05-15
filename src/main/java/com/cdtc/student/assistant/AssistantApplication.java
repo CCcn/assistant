@@ -9,7 +9,6 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
 @ServletComponentScan(value = "com.cdtc.student.assistant.servlet")
 public class AssistantApplication{
 
-
     public static void main(String[] args) {
 
         SpringApplication.run(AssistantApplication.class, args);
